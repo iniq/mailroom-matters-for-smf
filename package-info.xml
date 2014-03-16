@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE package-info SYSTEM "http://www.simplemachines.org/xml/package-info">
+
+<package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
+	<id>iniq:mailroom-matters-for-smf</id>
+	<name>Mailroom Matters for SMF</name>
+	<version>0.1</version>
+	<type>modification</type>
+
+	<install for="2.0-2.7">
+		<readme type="file">readme.md</readme>
+		<database>database-migrate-up.php</database>
+	</install>
+	
+	<uninstall>
+		<database>database-migrate-down.php</database>
+	</uninstall>
+</package-info>
