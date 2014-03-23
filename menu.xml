@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+	<id>iniq:mailroom-matters-for-smf</id>
+	<version>0.1</version>
+	<file name="$boarddir/index.php">
+		<operation>
+			<search position="before"><![CDATA['.xml' => array('News.php', 'ShowXmlFeed'),]]></search>
+			<add><![CDATA[
+		'mailroom_matters' => array('Mailroommatters.php', 'MailroommattersMain'),]]></add>
+		</operation>
+	</file>
+
+	<file name="$sourcedir/Subs.php">
+		<operation>
+			<search position="after"><![CDATA['help' => array(]]></search>
+			<add><![CDATA[
+			'mailroom_matters' => array(
+				'title' => 'Mailroom Matters',
+				'href' => $scripturl . '?action=mailroom_matters',
+				'show' => !$user_info['is_guest'],
+				'sub_buttons' => array(
+					'edit_profile' => array(
+						'title' => 'My Profile',
+						'href' => $scripturl . '?action=mailroom_matters;area=me',
+						'show' => $context['allow_edit_profile'],
+						'is_last' => true,
+					),
+				),
+			),
+			]]></add>
+		</operation>
+	</file>
+</modification>
