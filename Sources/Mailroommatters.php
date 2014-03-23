@@ -15,8 +15,17 @@ if (!defined('SMF')) {
  * Dispatcher method for the module
  */
 function MailroommattersMain() {
+	global $context;
+
 	isAllowedTo('profile_extra_own');
-	
+	loadTemplate('Mailroommatters');
+
+	$context['linktree'][] = array(
+		'url' => $scripturl . '?action=mailroom_matters',
+		'name' => 'Mailroom Matters'
+	);
+	$context['page_title'] = 'Mailroom Matters';
+
 	switch (strtolower(@$_GET['area'])) {
 		case 'me':
 			MailroomMattersView($me = true);
@@ -56,7 +65,25 @@ function MailroomMattersEdit() {
  */
 function MailroomMattersIndex() {
 	global $smcFunc, $context;
-	die('todo');
+
+	// Get the list of all existing profiles
+	$profiles = array();
+	$request = $smcFunc['db_query']('', '
+		SELECT *
+		FROM {db_prefix}mm_profiles
+		ORDER BY newspaper_name ASC'
+	);
+
+	while ($row = $smcFunc['db_fetch_assoc']($request)) {
+		$profiles[] = $row;
+	}
+	$smcFunc['db_free_result']($request);
+
+	$_GET['action'] = 'mailroom_matters';
+	$context['page_title'] .= ' Profiles';
+	$context['mailroommatters']['profiles'] = $profiles;
+	$context['mailroommatters']['top_header'] = $context['page_title'];
+	$context['sub_template'] = 'mailroommatters_index';
 }
 
 /**

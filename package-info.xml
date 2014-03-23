@@ -11,12 +11,14 @@
 		<readme type="file">readme.md</readme>
 		<modification>menu.xml</modification>
 		<require-dir name="Sources" destination="$boarddir" />
+		<require-dir name="Themes" destination="$boarddir" />
 		<database>database-migrate-up.php</database>
 	</install>
 	
 	<uninstall>
 		<modification reverse="true">menu.xml</modification>
 		<remove-file name="$sourcedir/Mailroommatters.php" />
+		<remove-file name="$themedir/Mailroommatters.template.php" />
 		<database>database-migrate-down.php</database>
 	</uninstall>
 </package-info>
