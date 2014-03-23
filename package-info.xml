@@ -10,11 +10,13 @@
 	<install for="2.0-2.7">
 		<readme type="file">readme.md</readme>
 		<modification>menu.xml</modification>
+		<require-dir name="Sources" destination="$boarddir" />
 		<database>database-migrate-up.php</database>
 	</install>
 	
 	<uninstall>
 		<modification reverse="true">menu.xml</modification>
+		<remove-file name="$sourcedir/Mailroommatters.php" />
 		<database>database-migrate-down.php</database>
 	</uninstall>
 </package-info>
