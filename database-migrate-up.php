@@ -171,21 +171,25 @@ $columns = array(
 		'name' => 'forklifts',
 		'type' => 'int',
 		'size' => '5',
+		'default' => 0
 		),
 	array(
 		'name' => 'pallet_jacks',
 		'type' => 'int',
 		'size' => '5',
+		'default' => 0
 		),
 	array(
 		'name' => 'staff_receiving',
 		'type' => 'int',
 		'size' => '5',
+		'default' => 0
 		),
 	array(
 		'name' => 'staff_inserting',
 		'type' => 'int',
 		'size' => '5',
+		'default' => 0
 		),
 	array(
 		'name' => 'commercial_printing',
