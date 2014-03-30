@@ -157,7 +157,7 @@ function _mailroommatters_editField($field) {
 
 	switch ($field['type']) {
 		case 'section':
-			return _mailroommatters_renderSection($field);
+			return _mailroommatters_renderSection($field, '_mailroommatters_editField');
 
 		case 'textarea':
 			$fieldInput = '<textarea class="editor" cols="50" rows="5" name="'. $field['database_field'] .'">'. $currentValue .'</textarea>';
