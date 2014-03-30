@@ -76,15 +76,23 @@ function MailroomMattersEdit() {
 	$profile = $smcFunc['db_fetch_assoc']($request);
 
 	if (isset($_REQUEST['save'])) {
-		// @todo Actual save stuff
-		$saveSuccess = true;
+		$fieldList = array();
+		$replacements = array('id_member' => _Mailroommatters_actorID());
+		$profileFields = _Mailroommatters_profileFields();
 
-		if ($saveSuccess) {
+		_Mailroommatters_saveQuerySection($profileFields, $fieldList, $replacements);
+
+		$updateQuery = 'UPDATE {db_prefix}mm_profiles SET '. implode(', ', $fieldList) .' WHERE id_member = {int:id_member}';
+
+		if ($smcFunc['db_query']('', $updateQuery, $replacements)) {
 			redirectexit('action=mailroom_matters;area=profile;mailroom=' . $profile['id_mmprofile']);
 		}
+
+		// Save failed?
+		$profile = array_merge($profile, $_POST);
+		$context['error_message'] = 'Save failed, please try again or contact the administrator';
 	}
 
-	// Didn't save
 	$context['mailroommatters']['fields'] = _Mailroommatters_profileFields();
 
 	$_GET['action'] = 'mailroom_matters';
@@ -130,6 +138,55 @@ function _Mailroommatters_actorID() {
 	}
 
 	return $context['user']['id'];
+}
+
+/**
+ * Generate field clause and insertion array value for a section of defined fields.
+ * Being done by reference and without injecting submitted fields list for memory concern reasons
+ *
+ * @param array $profileFields
+ * @param array $fieldList
+ * @param array $replacements
+ */
+function _Mailroommatters_saveQuerySection($profileFields, &$fieldList, &$replacements) {
+	foreach ($profileFields as $currentField) {
+		_Mailroommatters_saveQueryField($currentField, $fieldList, $replacements);
+	}
+}
+
+/**
+ * Generate field clause and insertion array value for a defined field
+ * Being done by reference and without injecting submitted fields list for memory concern reasons
+ *
+ * @param array $profileFields
+ * @param array $fieldList
+ * @param array $replacements
+ */
+function _Mailroommatters_saveQueryField($fieldDefinition, &$fieldList, &$replacements) {
+	if ($fieldDefinition['type'] == 'section') {
+		_Mailroommatters_saveQuerySection($fieldDefinition['fields'], $fieldList, $replacements);
+	}
+
+	if (array_key_exists($fieldDefinition['database_field'], $_POST)) {
+		switch (strtolower($fieldDefinition['type'])) {
+			case 'check':
+			case 'number':
+				$queryType = 'int';
+				break;
+
+			case 'select':
+			case 'text':
+			case 'textarea':
+				$queryType = 'text';
+				break;
+
+			default:
+				$queryType = $fieldDefinition['type'];
+		}
+
+		$fieldList[] = sprintf('%s = {%s:%s}', $fieldDefinition['database_field'], $queryType, $fieldDefinition['database_field']);
+		$replacements[$fieldDefinition['database_field']] = $_POST[$fieldDefinition['database_field']];
+	}
 }
 
 /**
