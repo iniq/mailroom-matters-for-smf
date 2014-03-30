@@ -70,7 +70,7 @@ function template_mailroommatters_index() {
 
 			$content .= '
 				<tr'. $letterHeader .'>
-					<td class="windowbg"><a class="subject" href="'. $scripturl .'?action=mailroom_matters;area=profile;mailroom='. $currentProfile['id_mmprofile'] .'">'. htmlspecialchars($currentProfile['newspaper_name']) .'</a></td>
+					<td class="windowbg"><a class="subject" href="'. $scripturl .'?action=mailroom_matters;area=profile;mailroom='. $currentProfile['id_member'] .'">'. htmlspecialchars($currentProfile['newspaper_name']) .'</a></td>
 					<td class="windowbg">'. htmlspecialchars($currentProfile['city']) .'</td>
 					<td class="windowbg">'. htmlspecialchars($currentProfile['state']) .'</td>
 				</tr>
@@ -104,6 +104,35 @@ function template_mailroommatters_edit() {
 			$content .= _mailroommatters_renderSection($currentField, '_mailroommatters_editField');
 		} else {
 			$content .= _mailroommatters_editField($currentField);
+		}
+	}
+
+	$content = '
+		<form id="creator" method="post" action="'. $scripturl .'?action=mailroom_matters;area=edit;save">
+			'. $content .'
+			<hr class="hrcolor clear" width="100%" size="1" />
+			<div class="righttext"><input class="button_submit" type="submit" value="Save Profile" /></div>
+		</form>
+		';
+
+	_mailroommatters_render($content, $pageDescription);
+}
+
+/**
+ * View action.
+ * Show the million and one field values, with links to edit/delete if appropriate.
+ */
+function template_mailroommatters_view() {
+	global $context, $settings, $options, $scripturl, $modSettings, $txt;
+
+	$content = '';
+	$pageDescription = '';
+
+	foreach ($context['mailroommatters']['fields'] as $fieldKey => $currentField) {
+		if ($currentField['type'] == 'section') {
+			$content .= _mailroommatters_renderSection($currentField, '_mailroommatters_renderField');
+		} else {
+			$content .= _mailroommatters_renderField($currentField);
 		}
 	}
 
@@ -207,4 +236,7 @@ function _mailroommatters_editField($field) {
  */
 function _mailroommatters_renderField($field) {
 	global $context;
+
+	// @todo: Replace this
+	return _mailroommatters_editField($field);
 }

@@ -49,7 +49,43 @@ function MailroommattersMain() {
  */
 function MailroomMattersView($me = false) {
 	global $smcFunc, $context;
-	die('todo');
+
+	$actorID = _Mailroommatters_actorID();
+	if ($me) {
+		$memberID = $actorID;
+	} else {
+		$memberID = @$_GET['mailroom'];
+	}
+	$self = ($memberID == $actorID);
+
+	// Find the profile, if one exists for this member
+	$request = $smcFunc['db_query']('', '
+		SELECT *
+		FROM {db_prefix}mm_profiles
+		WHERE id_member = {int:id_member}',
+		array(
+			'id_member' => $memberID,
+		)
+	);
+
+	$profile = $smcFunc['db_fetch_assoc']($request);
+
+	if (empty($profile)) {
+		redirectexit('action=mailroom_matters');
+	}
+
+	$context['linktree'][] = array(
+		'url' => $scripturl . '?action=mailroom_matters;area=profile;mailroom='. $memberID,
+		'name' => ($self ? 'My' : 'View') .' Profile'
+	);
+
+	$context['mailroommatters']['fields'] = _Mailroommatters_profileFields();
+
+	$_GET['action'] = 'mailroom_matters';
+	$context['page_title'] .= ' - '. htmlspecialchars($profile['newspaper_name']);
+	$context['mailroommatters']['profile'] = $profile;
+	$context['mailroommatters']['top_header'] = $context['page_title'];
+	$context['sub_template'] = 'mailroommatters_view';
 }
 
 /**
