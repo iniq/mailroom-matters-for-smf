@@ -19,6 +19,7 @@ function _mailroommatters_render($mainContent, $pageDescription = '') {
 		<div class="cat_bar">
 			<h3 class="catbg"><?php echo $context['mailroommatters']['top_header']; ?></h3>
 		</div>
+		<?php if (!empty($context['error_message'])): ?><p class="widowdb description error"><?php echo $context['error_message']; ?></p><?php endif; ?>
 		<?php if (!empty($pageDescription)): ?><p class="windowdb description"><?php echo $pageDescription; ?></p><?php endif; ?>
 	</div>
 	<div class="widowbg2">
