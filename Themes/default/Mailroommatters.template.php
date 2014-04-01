@@ -217,7 +217,7 @@ function _mailroommatters_editField($field) {
 			$properties['name'] = $field['database_field'];
 			$properties['value'] = $currentValue;
 			foreach ($properties as $key => $value) {
-				$fieldInput .= $key .'="'. $value .'" ';
+				$fieldInput .= $key .'="'. htmlspecialchars($value, ENT_QUOTES) .'" ';
 			}
 			$fieldInput = '<input '. $fieldInput .'/>';
 	}
