@@ -12,7 +12,15 @@
  * Call with content from the individual methods.
  */
 function _mailroommatters_render($mainContent, $pageDescription = '') {
-	global $context, $settings, $options, $scripturl, $modSettings, $txt;
+	_mailroommatters_header($pageDescription);
+	_mailroommatters_commonContentWrapper($mainContent);
+}
+
+/**
+ * Generate the top-of-page header/title/error stuff
+ */
+function _mailroommatters_header($pageDescription = '') {
+	global $context;
 
 	?>
 	<div id="mailroommatters">
@@ -22,6 +30,14 @@ function _mailroommatters_render($mainContent, $pageDescription = '') {
 		<?php if (!empty($context['error_message'])): ?><p class="widowdb description error"><?php echo $context['error_message']; ?></p><?php endif; ?>
 		<?php if (!empty($pageDescription)): ?><p class="windowdb description"><?php echo $pageDescription; ?></p><?php endif; ?>
 	</div>
+	<?php
+}
+
+/**
+ * Wrap the main content in containers expected for most content in the default theme
+ */
+function _mailroommatters_commonContentWrapper($mainContent) {
+	?>
 	<div class="widowbg2">
 		<span class="topslice"></span>
 		<div class="content"><?php echo $mainContent; ?></div>
@@ -35,7 +51,7 @@ function _mailroommatters_render($mainContent, $pageDescription = '') {
  * List brief summary of, and link to, existing profiles.
  */
 function template_mailroommatters_index() {
-	global $context, $settings, $options, $scripturl, $modSettings, $txt;
+	global $context, $scripturl;
 
 	$pageDescription = '
 		See the resources and services available from each of the member mailrooms.<br />
@@ -94,17 +110,13 @@ function template_mailroommatters_index() {
  * Show the million and one fields they can edit.
  */
 function template_mailroommatters_edit() {
-	global $context, $settings, $options, $scripturl, $modSettings, $txt;
+	global $context, $scripturl;
 
 	$content = '';
 	$pageDescription = (empty($context['mailroommatters']['profile']) ? 'Add a' : 'Update your') .' profile for your company. Include as much detail as you can to complete your profile.';
 
 	foreach ($context['mailroommatters']['fields'] as $fieldKey => $currentField) {
-		if ($currentField['type'] == 'section') {
-			$content .= _mailroommatters_renderSection($currentField, '_mailroommatters_editField');
-		} else {
-			$content .= _mailroommatters_editField($currentField);
-		}
+		$content .= _mailroommatters_editField($currentField);
 	}
 
 	$content = '
@@ -123,28 +135,23 @@ function template_mailroommatters_edit() {
  * Show the million and one field values, with links to edit/delete if appropriate.
  */
 function template_mailroommatters_view() {
-	global $context, $settings, $options, $scripturl, $modSettings, $txt;
+	global $context, $scripturl;
 
 	$content = '';
 	$pageDescription = '';
 
 	foreach ($context['mailroommatters']['fields'] as $fieldKey => $currentField) {
-		if ($currentField['type'] == 'section') {
-			$content .= _mailroommatters_renderSection($currentField, '_mailroommatters_renderField');
-		} else {
-			$content .= _mailroommatters_renderField($currentField);
-		}
+		$content .= _mailroommatters_renderField($currentField);
 	}
 
-	$content = '
-		<form id="creator" method="post" action="'. $scripturl .'?action=mailroom_matters;area=edit;save">
-			'. $content .'
-			<hr class="hrcolor clear" width="100%" size="1" />
-			<div class="righttext"><input class="button_submit" type="submit" value="Save Profile" /></div>
-		</form>
-		';
-
-	_mailroommatters_render($content, $pageDescription);
+	_mailroommatters_header();
+	?>
+	<div id="main_admsection" class="flow_auto">
+		<div id="detailedinfo">
+			<?php _mailroommatters_commonContentWrapper($content); ?>
+		</div>
+	</div>
+	<?php
 }
 
 /**
@@ -156,18 +163,25 @@ function template_mailroommatters_view() {
 function _mailroommatters_renderSection($section, $fieldRenderCallback = '_mailroommatters_renderField') {
 	global $context;
 
+	$fieldContent = '';
+	if (is_callable($fieldRenderCallback)) {
+		foreach ($section['fields'] as $fieldKey => $currentField) {
+			$fieldContent .= call_user_func($fieldRenderCallback, $currentField);
+		}
+	}
+
+	if (empty($fieldContent)) {
+		return '';
+	}
+
 	$content = '
 		<div class="title_barIC">
 			<h4 class="titlebg"><span class="ie6_header floatleft">'. $section['label'] .'</span></h4>
 		</div>
 		<dl>
+		'. $fieldContent .'
+		</dl>
 		';
-	if (is_callable($fieldRenderCallback)) {
-		foreach ($section['fields'] as $fieldKey => $currentField) {
-			$content .= call_user_func($fieldRenderCallback, $currentField);
-		}
-	}
-	$content .= '</dl>';
 
 	return $content;
 }
@@ -237,6 +251,39 @@ function _mailroommatters_editField($field) {
 function _mailroommatters_renderField($field) {
 	global $context;
 
-	// @todo: Replace this
-	return _mailroommatters_editField($field);
+	if ($field['type'] == 'section') {
+		return _mailroommatters_renderSection($field, '_mailroommatters_renderField');
+	}
+
+	$currentValue = $context['mailroommatters']['profile'][$field['database_field']];
+
+	if ($currentValue === '' || is_null($currentValue)) {
+		return '';
+	}
+
+	switch ($field['type']) {
+		case 'number':
+			$currentValue = floatval($currentValue);
+			break;
+
+		case 'check':
+			$currentValue = ($currentValue ? 'Yes' : 'No');
+			break;
+
+		case 'textarea':
+			$currentValue = nl2br(htmlspecialchars($currentValue));
+			break;
+
+		default:
+			$currentValue = htmlspecialchars($currentValue);
+			if (strpos($field['database_field'], '_email') !== false) {
+				$currentValue = '<a href="mailto:'. $currentValue .'">'. $currentValue .'</a>';
+			}
+	}
+
+	$content = '
+		<dt>'. $field['label'] .'</dt>
+		<dd>'. $currentValue .'</dd>
+		';
+	return $content;
 }
