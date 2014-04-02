@@ -145,6 +145,31 @@ function template_mailroommatters_view() {
 	}
 
 	_mailroommatters_header();
+
+	$actionButtons = array();
+	if ($context['mailroommatters']['self']) {
+		$actionButtons[] = array('label' => 'Edit Profile', 'linkSuffix' => ';area=edit');
+	}
+	if ($context['mailroommatters']['self'] || $context['user']['is_admin']) {
+		$actionButtons[] = array('label' => 'Delete Profile', 'linkSuffix' => ';area=delete;mailroom='. $context['mailroommatters']['profile']['id_member']);
+	}
+
+	if (!empty($actionButtons)) {
+		?>
+		<div class="pagesection">
+			<div class="buttonlist floatright">
+				<ul>
+					<?php
+		foreach ($actionButtons as $actionButton) {
+			echo '<li><a href="'. $scripturl .'?action=mailroom_matters'. $actionButton['linkSuffix'] .'"><span>'. $actionButton['label'] .'</span></a></li>';
+		}
+					?>
+				</ul>
+			</div>
+		</div>
+		<?php
+	}
+
 	?>
 	<div id="main_admsection" class="flow_auto">
 		<div id="detailedinfo">

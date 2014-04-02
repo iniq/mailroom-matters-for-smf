@@ -75,6 +75,7 @@ function MailroomMattersView($me = false) {
 	$context['page_title'] .= ' - '. htmlspecialchars($profile['newspaper_name']);
 	$context['mailroommatters']['profile'] = $profile;
 	$context['mailroommatters']['top_header'] = $context['page_title'];
+	$context['mailroommatters']['self'] = $self;
 	$context['sub_template'] = 'mailroommatters_view';
 }
 
@@ -122,7 +123,7 @@ function MailroomMattersEdit() {
 				);
 
 			if ($smcFunc['db_query']('', $updateQuery, $replacements)) {
-				redirectexit('action=mailroom_matters;area=profile;mailroom=' . $profile['id_mmprofile']);
+				redirectexit('action=mailroom_matters;area=profile;mailroom=' . $profile['id_member']);
 			}
 		}
 
