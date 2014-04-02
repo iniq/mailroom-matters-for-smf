@@ -55,14 +55,17 @@ function MailroomMattersView($me = false) {
 	global $smcFunc, $context;
 
 	$actorID = _Mailroommatters_actorID();
-	if ($me) {
+	$memberID = @$_GET['mailroom'];
+	if ($me || empty($memberID)) {
 		$memberID = $actorID;
-	} else {
-		$memberID = @$_GET['mailroom'];
 	}
 	$self = ($memberID == $actorID);
 
 	$profile = _Mailroommatters_profile($memberID);
+
+	if ($self && empty($profile)) {
+		redirectexit('action=mailroom_matters;area=edit');
+	}
 
 	if (empty($profile)) {
 		redirectexit('action=mailroom_matters');
@@ -127,7 +130,7 @@ function MailroomMattersEdit() {
 				);
 
 			if ($smcFunc['db_query']('', $updateQuery, $replacements)) {
-				redirectexit('action=mailroom_matters;area=profile;mailroom=' . $profile['id_member']);
+				redirectexit('action=mailroom_matters;area=me');
 			}
 		}
 
