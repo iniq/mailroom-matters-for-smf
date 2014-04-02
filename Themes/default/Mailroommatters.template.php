@@ -180,6 +180,26 @@ function template_mailroommatters_view() {
 }
 
 /**
+ * Delete action.
+ * Show a confirmation - do they really want to delete everything in this profile?
+ */
+function template_mailroommatters_delete() {
+	global $context, $scripturl;
+
+	ob_start();
+	?>
+	<h2>Delete Profile for &quot;<?php echo htmlspecialchars($context['mailroommatters']['profile']['newspaper_name']); ?>&quot;?</h2>
+	<p>This cannot be undone, and the entire profile will be deleted. Only proceed if you are certain that you want to do this.</p>
+	<p><a href="<?php echo $scripturl; ?>?action=mailroom_matters;area=delete;mailroom=<?php echo $context['mailroommatters']['profile']['id_member']; ?>;confirm">I understand this is permanent. Delete this profile.</a></p>
+	<?php
+	$content = ob_get_contents();
+	ob_end_clean();
+
+	_mailroommatters_render($content);
+}
+
+
+/**
  * Call to render a section of fields
  * @param array $section
  * @param callable $fieldRenderCallback

@@ -39,6 +39,10 @@ function MailroommattersMain() {
 			MailroomMattersEdit();
 			break;
 
+		case 'delete':
+			MailroommattersDelete();
+			break;
+
 		default:
 			MailroomMattersIndex();
 	}
@@ -167,6 +171,45 @@ function MailroomMattersIndex() {
 	$context['mailroommatters']['profiles'] = $profiles;
 	$context['mailroommatters']['top_header'] = $context['page_title'];
 	$context['sub_template'] = 'mailroommatters_index';
+}
+
+/**
+ * Workflow for deleting a profile
+ */
+function MailroomMattersDelete() {
+	global $smcFunc, $context;
+
+	$memberID = @$_GET['mailroom'];
+	$actorID = _Mailroommatters_actorID();
+	$profile = _Mailroommatters_profile($memberID);
+
+	if (empty($profile) || ($memberID != $actorID && !$context['user']['is_admin'])) {
+		redirectexit('action=mailroom_matters');
+	}
+
+	$context['linktree'][] = array(
+		'url' => $scripturl . '?action=mailroom_matters;area=delete;mailroom='. $memberID,
+		'name' => 'Delete Profile',
+	);
+
+	if (isset($_REQUEST['confirm'])) {
+		// Find the profile, if one exists for this member
+		$request = $smcFunc['db_query']('', '
+			DELETE
+			FROM {db_prefix}mm_profiles
+			WHERE id_member = {int:id_member}',
+			array(
+				'id_member' => $memberID,
+			)
+		);
+		redirectexit('action=mailroom_matters');
+	}
+
+	$_GET['action'] = 'mailroom_matters';
+	$context['page_title'] .= ' - Delete Profile';
+	$context['mailroommatters']['profile'] = $profile;
+	$context['mailroommatters']['top_header'] = $context['page_title'];
+	$context['sub_template'] = 'mailroommatters_delete';
 }
 
 /**
