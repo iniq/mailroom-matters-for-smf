@@ -204,10 +204,17 @@ function _Mailroommatters_saveQueryField($fieldDefinition, &$fieldList, &$replac
 	}
 
 	if (array_key_exists($fieldDefinition['database_field'], $_POST)) {
+		$saveValue = $_POST[$fieldDefinition['database_field']];
+
 		switch (strtolower($fieldDefinition['type'])) {
 			case 'check':
 			case 'number':
-				$queryType = 'int';
+				if ($saveValue === '' || !is_numeric($saveValue)) {
+					$queryType = 'raw';
+					$saveValue = 'NULL';
+				} else {
+					$queryType = 'int';
+				}
 				break;
 
 			case 'select':
@@ -221,7 +228,7 @@ function _Mailroommatters_saveQueryField($fieldDefinition, &$fieldList, &$replac
 		}
 
 		$fieldList[] = sprintf('%s = {%s:%s}', $fieldDefinition['database_field'], $queryType, $fieldDefinition['database_field']);
-		$replacements[$fieldDefinition['database_field']] = $_POST[$fieldDefinition['database_field']];
+		$replacements[$fieldDefinition['database_field']] = $saveValue;
 	}
 }
 

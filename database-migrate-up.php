@@ -171,25 +171,29 @@ $columns = array(
 		'name' => 'forklifts',
 		'type' => 'int',
 		'size' => '5',
-		'default' => 0
+		'null' => true,
+		'default' => null
 		),
 	array(
 		'name' => 'pallet_jacks',
 		'type' => 'int',
 		'size' => '5',
-		'default' => 0
+		'null' => true,
+		'default' => null
 		),
 	array(
 		'name' => 'staff_receiving',
 		'type' => 'int',
 		'size' => '5',
-		'default' => 0
+		'null' => true,
+		'default' => null
 		),
 	array(
 		'name' => 'staff_inserting',
 		'type' => 'int',
 		'size' => '5',
-		'default' => 0
+		'null' => true,
+		'default' => null
 		),
 	array(
 		'name' => 'commercial_printing',
@@ -254,7 +258,8 @@ $columns = array(
 		'name' => 'insert_advance_days',
 		'type' => 'int',
 		'size' => '5',
-		'default' => 0
+		'null' => true,
+		'default' => null
 		),
 	array(
 		'name' => 'unloading_equipment',
