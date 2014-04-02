@@ -58,17 +58,7 @@ function MailroomMattersView($me = false) {
 	}
 	$self = ($memberID == $actorID);
 
-	// Find the profile, if one exists for this member
-	$request = $smcFunc['db_query']('', '
-		SELECT *
-		FROM {db_prefix}mm_profiles
-		WHERE id_member = {int:id_member}',
-		array(
-			'id_member' => $memberID,
-		)
-	);
-
-	$profile = $smcFunc['db_fetch_assoc']($request);
+	$profile = _Mailroommatters_profile($memberID);
 
 	if (empty($profile)) {
 		redirectexit('action=mailroom_matters');
@@ -99,34 +89,48 @@ function MailroomMattersEdit() {
 		'name' => 'Edit Profile',
 	);
 
-	// Find their profile, if they have made one already
-	$request = $smcFunc['db_query']('', '
-		SELECT *
-		FROM {db_prefix}mm_profiles
-		WHERE id_member = {int:id_member}',
-		array(
-			'id_member' => _Mailroommatters_actorID(),
-		)
-	);
-
-	$profile = $smcFunc['db_fetch_assoc']($request);
+	$memberID = intval(_Mailroommatters_actorID());
+	$profile = _Mailroommatters_profile($memberID);
 
 	if (isset($_REQUEST['save'])) {
-		$fieldList = array();
-		$replacements = array('id_member' => _Mailroommatters_actorID());
-		$profileFields = _Mailroommatters_profileFields();
+		$context['error_message'] = '';
 
-		_Mailroommatters_saveQuerySection($profileFields, $fieldList, $replacements);
-
-		$updateQuery = 'UPDATE {db_prefix}mm_profiles SET '. implode(', ', $fieldList) .' WHERE id_member = {int:id_member}';
-
-		if ($smcFunc['db_query']('', $updateQuery, $replacements)) {
-			redirectexit('action=mailroom_matters;area=profile;mailroom=' . $profile['id_mmprofile']);
+		// Check for various known error states
+		if (empty($_POST['newspaper_name'])) {
+			$context['error_message'] .= 'You must provide a Newspaper Name<br />';
 		}
 
-		// Save failed?
+		// If no errors found, attempt the save
+		if (empty($context['error_message'])) {
+			$fieldList = array();
+			$replacements = array('id_member' => $memberID);
+			$profileFields = _Mailroommatters_profileFields();
+
+			$inserting = (empty($profile));
+
+			if ($inserting) {
+				$fieldList[] = 'id_member = {int:id_member}';
+			}
+
+			_Mailroommatters_saveQuerySection($profileFields, $fieldList, $replacements);
+
+			$updateQuery = sprintf(
+				'%s {db_prefix}mm_profiles SET %s%s',
+				($inserting ? 'INSERT INTO' : 'UPDATE'),
+				implode(', ', $fieldList),
+				($inserting ? '' : ' WHERE id_member = {int:id_member}')
+				);
+
+			if ($smcFunc['db_query']('', $updateQuery, $replacements)) {
+				redirectexit('action=mailroom_matters;area=profile;mailroom=' . $profile['id_mmprofile']);
+			}
+		}
+
+		// Save failed, or field errors found?
 		$profile = array_merge($profile, $_POST);
-		$context['error_message'] = 'Save failed, please try again or contact the administrator';
+		if (empty($context['error_message'])) {
+			$context['error_message'] = 'Save failed, please try again or contact the administrator';
+		}
 	}
 
 	$context['mailroommatters']['fields'] = _Mailroommatters_profileFields();
@@ -168,13 +172,37 @@ function MailroomMattersIndex() {
  * Helper to read actor's ID
  */
 function _Mailroommatters_actorID() {
-	global $smcFunc, $context;
+	global $context;
 	if (empty($context['user']['id'])) {
 		return false;
 	}
 
 	return $context['user']['id'];
 }
+
+/**
+ * Helper to read a profile from the database
+ */
+function _Mailroommatters_profile($memberID = null) {
+	global $smcFunc;
+
+	if (empty($memberID)) {
+		$memberID = _Mailroommatters_actorID();
+	}
+
+	// Find the profile, if one exists for this member
+	$request = $smcFunc['db_query']('', '
+		SELECT *
+		FROM {db_prefix}mm_profiles
+		WHERE id_member = {int:id_member}',
+		array(
+			'id_member' => $memberID,
+		)
+	);
+
+	return $smcFunc['db_fetch_assoc']($request);
+}
+
 
 /**
  * Generate field clause and insertion array value for a section of defined fields.
