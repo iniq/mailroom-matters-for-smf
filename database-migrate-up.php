@@ -284,6 +284,13 @@ $columns = array(
 		'type' => 'tinyint',
 		'size' => 1,
 		'default' => 0
+		),
+	array(
+		'name' => 'last_modified',
+		'type' => 'int',
+		'size' => 10,
+		'null' => true,
+		'default' => null
 		)
 	);
 $indicies = array(
