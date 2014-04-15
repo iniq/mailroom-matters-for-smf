@@ -110,8 +110,8 @@ function MailroomMattersEdit() {
 
 		// If no errors found, attempt the save
 		if (empty($context['error_message'])) {
-			$fieldList = array();
-			$replacements = array('id_member' => $memberID);
+			$fieldList = array('last_modified = {int:last_modified}');
+			$replacements = array('id_member' => $memberID, 'last_modified' => time());
 			$profileFields = _Mailroommatters_profileFields();
 
 			$inserting = (empty($profile));
