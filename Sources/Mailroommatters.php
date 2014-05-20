@@ -190,14 +190,18 @@ function MailroommattersSearch() {
 	$extraConditions = '';
 	$replacements = array();
 	$profiles = array();
-	$boolKeyPattern = '~[\*\"\+\-\(\)\|\&]~';
+	$boolKeyPattern = '~[\*\+\-\(\)\|\&]~';
 
 	$searchableFields = array('newspaper_name', 'city', 'state', 'primary_name', 'primary_phone', 'primary_email', 'secondary_name', 'secondary_phone', 'secondary_email');
 	$matchStatement = sprintf('MATCH (`%s`) AGAINST ({string:match_terms} IN BOOLEAN MODE)', implode('`, `', $searchableFields));
 
+	// SMF does odd things with quotes, so anyone searching using them for an exact match (ie "Journal") will find nothing,
+	// as the search includes the quotes as part of the term. Easiest for now is to ignore them, search works OK without.
+	$cleanSearch = str_replace('"', '', htmlspecialchars_decode($rawSearch));
+
 	// If they didn't provide their own boolean keys, then add a wildcard to the end of each word for them.
 	// If they did, assume they know what they're doing and leave it alone.
-	$matchTerms = $rawSearch;
+	$matchTerms = $cleanSearch;
 	if (!preg_match($boolKeyPattern, $matchTerms)) {
 		$matchTerms = str_replace(' ', '* ', $matchTerms) .'*';
 	}
@@ -205,7 +209,7 @@ function MailroommattersSearch() {
 
 	// If a search term is below 4 characters long, it gets ignored.
 	// Search for exact matches in that case.
-	$simpleSearch = preg_replace($boolKeyPattern, '', $rawSearch);
+	$simpleSearch = preg_replace($boolKeyPattern, '', $cleanSearch);
 	if (!empty($simpleSearch) && strlen($simpleSearch) < 4) {
 		$smallterms = explode(' ', $simpleSearch);
 		foreach ($smallterms as $index => $term) {
