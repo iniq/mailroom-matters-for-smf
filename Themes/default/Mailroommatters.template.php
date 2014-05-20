@@ -55,8 +55,10 @@ function _mailroommatters_searchbox() {
 
 	$clearOnFocus = false;
 	$searchTerm = $context['q'];
-	if (empty($searchTerm)) {
-		$searchTerm = 'Search...';
+	$placeholderTerm = 'Search...';
+
+	if (empty($searchTerm) || $searchTerm == $placeholderTerm) {
+		$searchTerm = $placeholderTerm;
 		$clearOnFocus = true;
 	}
 	?>
@@ -84,6 +86,11 @@ function _mailroommatters_profileTable($profiles) {
 	$linkLetters = array();
 
 	if (!empty($profiles)) {
+		$letterLinkBase = $scripturl .'?action=mailroom_matters';
+		if (!empty($context['q'])) {
+			$letterLinkBase .= ';area=search;q='. urlencode($context['q']);
+		}
+
 		$content = '
 		<div id="mailroommatters_list" class="tborder topic_table">
 			<table class="table_grid" cellspacing="0" width="100%">
@@ -104,7 +111,7 @@ function _mailroommatters_profileTable($profiles) {
 			if ($firstLetter != $sortLetter) {
 				$letterHeader = ' id="letter'. $firstLetter .'"';
 				$sortLetter = $firstLetter;
-				$linkLetters[] = '<a href="'. $scripturl .'?action=mailroom_matters#letter'. $firstLetter .'">'. $firstLetter .'</a>';
+				$linkLetters[] = '<a href="'. $letterLinkBase .'#letter'. $firstLetter .'">'. $firstLetter .'</a>';
 			}
 
 			$content .= '
