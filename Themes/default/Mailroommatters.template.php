@@ -19,7 +19,7 @@ function _mailroommatters_render($mainContent, $pageDescription = '') {
 /**
  * Generate the top-of-page header/title/error stuff
  */
-function _mailroommatters_header($pageDescription = '') {
+function _mailroommatters_header($pageDescription = '', $includeSearch = true) {
 	global $context;
 
 	?>
@@ -29,6 +29,7 @@ function _mailroommatters_header($pageDescription = '') {
 		</div>
 		<?php if (!empty($context['error_message'])): ?><p class="widowdb description error"><?php echo $context['error_message']; ?></p><?php endif; ?>
 		<?php if (!empty($pageDescription)): ?><p class="windowdb description"><?php echo $pageDescription; ?></p><?php endif; ?>
+		<?php if ($includeSearch) { _mailroommatters_searchbox(); }; ?>
 	</div>
 	<?php
 }
@@ -43,6 +44,28 @@ function _mailroommatters_commonContentWrapper($mainContent) {
 		<div class="content"><?php echo $mainContent; ?></div>
 		<span class="botslice"></span>
 	</div>
+	<?php
+}
+
+/**
+ * Function to include the MM search box wherever you'd like
+ */
+function _mailroommatters_searchbox() {
+	global $context;
+
+	$clearOnFocus = false;
+	$searchTerm = $context['q'];
+	if (empty($searchTerm)) {
+		$searchTerm = 'Search...';
+		$clearOnFocus = true;
+	}
+	?>
+	<form class="mailroommatters_search" method="get" action="<?php echo $scripturl; ?>" accept-charset="UTF-8">
+		<input type="hidden" name="action" value="mailroom_matters" />
+		<input type="hidden" name="area" value="search" />
+		<input class="inputbox" type="text" name="q" value="<?php echo $searchTerm; ?>" <?php if ($clearOnFocus) { echo 'onblur="if(this.value==\'\') this.value=\''. $searchTerm .'\';" onfocus="this.value = \'\';"'; } ?> />
+		<input type="submit" value="Search Profiles" />
+	</form>
 	<?php
 }
 
