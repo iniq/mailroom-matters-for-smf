@@ -43,6 +43,10 @@ function MailroommattersMain() {
 			MailroommattersDelete();
 			break;
 
+		case 'search':
+			MailroommattersSearch();
+			break;
+
 		default:
 			MailroomMattersIndex();
 	}
@@ -174,6 +178,63 @@ function MailroomMattersIndex() {
 	$context['mailroommatters']['profiles'] = $profiles;
 	$context['mailroommatters']['top_header'] = $context['page_title'];
 	$context['sub_template'] = 'mailroommatters_index';
+}
+
+/**
+ * Execute a basic search query, display a list of results
+ */
+function MailroommattersSearch() {
+	global $smcFunc, $context;
+
+	$rawSearch = trim(@$_GET['q']);
+	$extraConditions = '';
+	$replacements = array();
+	$profiles = array();
+	$boolKeyPattern = '~[\*\"\+\-\(\)\|\&]~';
+
+	$searchableFields = array('newspaper_name', 'city', 'state', 'primary_name', 'primary_phone', 'primary_email', 'secondary_name', 'secondary_phone', 'secondary_email');
+	$matchStatement = sprintf('MATCH (`%s`) AGAINST ({string:match_terms} IN BOOLEAN MODE)', implode('`, `', $searchableFields));
+
+	// If they didn't provide their own boolean keys, then add a wildcard to the end of each word for them.
+	// If they did, assume they know what they're doing and leave it alone.
+	$matchTerms = $rawSearch;
+	if (!preg_match($boolKeyPattern, $matchTerms)) {
+		$matchTerms = str_replace(' ', '* ', $matchTerms) .'*';
+	}
+	$replacements['match_terms'] = $matchTerms;
+
+	// If a search term is below 4 characters long, it gets ignored.
+	// Search for exact matches in that case.
+	$simpleSearch = preg_replace($boolKeyPattern, '', $rawSearch);
+	if (!empty($simpleSearch) && strlen($simpleSearch) < 4) {
+		$smallterms = explode(' ', $simpleSearch);
+		foreach ($smallterms as $index => $term) {
+			$termKey = 'smallterm_'. $index;
+			$replacements[$termKey] = $term;
+			foreach ($searchableFields as $field) {
+				$extraConditions .= sprintf(' OR `%s` = {string:%s}', $field, $termKey);
+			}
+		}
+	}
+
+	$searchQuery = sprintf(
+		'SELECT *, %s AS score FROM {db_prefix}mm_profiles WHERE %s%s',
+		$matchStatement,
+		$matchStatement,
+		$extraConditions
+		);
+	$request = $smcFunc['db_query']('', $searchQuery, $replacements);
+	while ($row = $smcFunc['db_fetch_assoc']($request)) {
+		$profiles[] = $row;
+	}
+	$smcFunc['db_free_result']($request);
+
+	$_GET['action'] = 'mailroom_matters';
+	$context['page_title'] .= ' Profiles: Search Results';
+	$context['mailroommatters']['profiles'] = $profiles;
+	$context['mailroommatters']['top_header'] = $context['page_title'];
+	$context['q'] = $rawSearch;
+	$context['sub_template'] = 'mailroommatters_index';	// for now, use the Index layout. Customize later if needed.
 }
 
 /**
