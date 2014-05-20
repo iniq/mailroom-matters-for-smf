@@ -70,19 +70,20 @@ function _mailroommatters_searchbox() {
 }
 
 /**
- * Index action.
- * List brief summary of, and link to, existing profiles.
+ * Display a commonly styled and functional table for a list of Profiles
+ * (index, search results, etc.)
+ * Side effect: will modify page header to include link letters of its own accord (hacky, yes.)
+ *
+ * @param array $profiles
+ * @return string
  */
-function template_mailroommatters_index() {
+function _mailroommatters_profileTable($profiles) {
 	global $context, $scripturl;
 
-	$pageDescription = '
-		See the resources and services available from each of the member mailrooms.<br />
-		You can manage your own profile <a href="'. $scripturl .'?action=mailroom_matters;area=edit">here</a>.
-		';
+	$content = '';
+	$linkLetters = array();
 
-	$content = 'There are currently no profiles to view. Why not <a href="'. $scripturl .'?action=mailroom_matters;area=edit">add your own?</a>';
-	if (!empty($context['mailroommatters']['profiles'])) {
+	if (!empty($profiles)) {
 		$content = '
 		<div id="mailroommatters_list" class="tborder topic_table">
 			<table class="table_grid" cellspacing="0" width="100%">
@@ -97,8 +98,7 @@ function template_mailroommatters_index() {
 		';
 
 		$sortLetter = '';
-		$linkLetters = array();
-		foreach ($context['mailroommatters']['profiles'] as $currentProfile) {
+		foreach ($profiles as $currentProfile) {
 			$firstLetter = strtoupper(substr($currentProfile['newspaper_name'], 0, 1));
 			$letterHeader = '';
 			if ($firstLetter != $sortLetter) {
@@ -123,6 +123,26 @@ function template_mailroommatters_index() {
 		';
 
 		$context['mailroommatters']['top_header'] .= '<span class="floatright">'. implode(' ', $linkLetters) .'</span>';
+	}
+
+	return $content;
+}
+
+/**
+ * Index action.
+ * List brief summary of, and link to, existing profiles.
+ */
+function template_mailroommatters_index() {
+	global $context, $scripturl;
+
+	$pageDescription = '
+		See the resources and services available from each of the member mailrooms.<br />
+		You can manage your own profile <a href="'. $scripturl .'?action=mailroom_matters;area=edit">here</a>.
+		';
+
+	$content = _mailroommatters_profileTable($context['mailroommatters']['profiles']);
+	if (empty($content)) {
+		$content = 'There are currently no profiles to view. Why not <a href="'. $scripturl .'?action=mailroom_matters;area=edit">add your own?</a>';
 	}
 
 	_mailroommatters_render($content, $pageDescription);
