@@ -234,7 +234,7 @@ function MailroommattersSearch() {
 	$context['mailroommatters']['profiles'] = $profiles;
 	$context['mailroommatters']['top_header'] = $context['page_title'];
 	$context['q'] = $rawSearch;
-	$context['sub_template'] = 'mailroommatters_index';	// for now, use the Index layout. Customize later if needed.
+	$context['sub_template'] = 'mailroommatters_search';
 }
 
 /**

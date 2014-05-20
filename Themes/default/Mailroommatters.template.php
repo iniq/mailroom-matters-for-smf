@@ -156,6 +156,25 @@ function template_mailroommatters_index() {
 }
 
 /**
+ * Search results action.
+ * List brief summary of, and link to, matching profiles (if any).
+ */
+function template_mailroommatters_search() {
+	global $context, $scripturl;
+
+	$pageDescription = 'Search for a Mailroom Matters profile by: City, State, Newspaper Name or Contact.';
+
+	$content = _mailroommatters_profileTable($context['mailroommatters']['profiles']);
+	if (empty($content)) {
+		$content = 'No profiles matched your search. You can refine your terms and try again, or <a href="'. $scripturl .'?action=mailroom_matters">view the full listing</a>.';
+	} else {
+		$pageDescription .= '<br />The following profiles matched your search:';
+	}
+
+	_mailroommatters_render($content, $pageDescription);
+}
+
+/**
  * Edit action.
  * Show the million and one fields they can edit.
  */
