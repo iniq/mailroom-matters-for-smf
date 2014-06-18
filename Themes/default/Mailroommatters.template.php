@@ -184,17 +184,209 @@ function template_mailroommatters_edit() {
 	$content = '';
 	$pageDescription = (empty($context['mailroommatters']['profile']) ? 'Add a' : 'Update your') .' profile for your company. Include as much detail as you can to complete your profile.';
 
-	foreach ($context['mailroommatters']['fields'] as $fieldKey => $currentField) {
-		$content .= _mailroommatters_editField($currentField);
-	}
+	ob_start();
+	?>
+	<form id="creator" method="post" action="<?php echo $scripturl; ?>?action=mailroom_matters;area=edit;save">
 
-	$content = '
-		<form id="creator" method="post" action="'. $scripturl .'?action=mailroom_matters;area=edit;save">
-			'. $content .'
+		<div class="title_barIC">
+			<h4 class="titlebg"><span class="ie6_header floatleft">Newspaper/Company Contact Information</span></h4>
+		</div>
+		<strong><small>* fields are required</small></strong>
+		<dl>
+			<?php
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['newspaper_name']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['address']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['address2']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['city']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['state']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['country']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['zip']);
+			?>
+		</dl>
+
+		<div class="title_barIC">
+			<h4 class="titlebg"><span class="ie6_header floatleft">Primary Contact</span></h4>
+		</div>
+		<dl>
+			<?php
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['primary_name']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['primary_position']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['primary_phone']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['primary_fax']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['primary_email']);
+			?>
+		</dl>
+
+		<div class="title_barIC">
+			<h4 class="titlebg"><span class="ie6_header floatleft">Secondary Contact</span></h4>
+		</div>
+		<dl>
+			<?php
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['secondary_name']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['secondary_position']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['secondary_phone']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['secondary_fax']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['secondary_email']);
+			?>
+		</dl>
+
+		<div class="title_barIC">
+			<h4 class="titlebg"><span class="ie6_header floatleft">Other Contact Information</span></h4>
+		</div>
+		<dl>
+			<?php
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['phone_emergency']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['phone_security']);
+			?>
+		</dl>
+
+		<div class="title_barIC">
+			<h4 class="titlebg"><span class="ie6_header floatleft">Company Details and Equipment</span></h4>
+		</div>
+		<dl>
+			<?php
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['circulation_volume']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['inserting_equipment']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['forklifts']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['pallet_jacks']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['staff_receiving']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['staff_inserting']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['commercial_printing']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['load_packaging']);
+			?>
+		</dl>
+
+		<div class="title_barIC">
+			<h4 class="titlebg"><span class="ie6_header floatleft">Extension Requests Contact</span></h4>
+		</div>
+		<dl>
+			<?php
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['extension_requests_name']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['extension_requests_position']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['extension_requests_phone']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['extension_requests_fax']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['extension_requests_email']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['extension_requests_comments']);
+			?>
+		</dl>
+
+		<div class="title_barIC">
+			<h4 class="titlebg"><span class="ie6_header floatleft">Receiving Days and Hours for Insert Delivery (If you are closed on the specified day, then leave the field blank)</span></h4>
+		</div>
+		<dl>
+			<?php
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['hours_monday']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['hours_tuesday']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['hours_wednesday']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['hours_thursday']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['hours_friday']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['hours_saturday']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['hours_sunday']);
+			?>
+		</dl>
+
+		<div class="title_barIC">
+			<h4 class="titlebg"><span class="ie6_header floatleft">Receiving Details</span></h4>
+		</div>
+		<dl>
+			<dt><strong>Advanced insert receiving times: (How many days in advance must inserts be recieved?)</strong></dt>
+			<dd></dd>
+
+			<?php
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['advanced_receiving_sundays']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['advanced_receiving_daily']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['unloading_equipment']);
+			?>
+
+			<dt><strong>Receiving Challenges or Comments</strong></dt>
+			<dd>
+				<?php
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['receiving_challenges_difficult_access']);
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['receiving_challenges_no_turnaround']);
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['receiving_challenges_unpaved']);
+				?>
+				<br />
+				<?php echo _mailroommatters_editField($context['mailroommatters']['fields']['receiving_challenges_comments']); ?>
+			</dd>
+
+			<dt><strong>Driver Privileges and Access</strong></dt>
+			<dd>
+				<?php
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['driver_privileges_office_only']);
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['driver_privileges_truck_only']);
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['driver_privileges_unloading_participation']);
+				?>
+				<br />
+				<?php echo _mailroommatters_editField($context['mailroommatters']['fields']['driver_privileges_comments']); ?>
+			</dd>
+
+			<?php echo _mailroommatters_editField($context['mailroommatters']['fields']['digital_pictures']); ?>
+		</dl>
+
+		<div class="title_barIC">
+			<h4 class="titlebg"><span class="ie6_header floatleft">Returnable Printer Pallets/Recycling (Confidential)</span></h4>
+		</div>
+		<dl>
+			<dt><strong>Perfect Pallet storage area:</strong></dt>
+			<dd>
+				<input type="checkbox" name="pallet_storage_inside_mailroom" /> Inside mailroom
+				<br /><input type="checkbox" name="pallet_storage_inside_building" /> Inside building near mailroom
+				<br /><input type="checkbox" name="pallet_storage_inside_dock" /> Inside Dock Area
+				<br /><input type="checkbox" name="pallet_storage_inside_trailer" /> Inside a storage trailer
+				<br /><input type="checkbox" name="pallet_storage_inside_cage" /> Inside in a locked cage
+				<br /><input type="checkbox" name="pallet_storage_outside_secured" /> Outside in a secured yard
+				<br /><input type="checkbox" name="pallet_storage_outside_unsecured" /> Outside in a unsecured yard
+			</dd>
+
+			<dt><strong>Do you follow the recommended 30 pallets per stack?:</strong></dt>
+			<dd><input type="checkbox" name="recommended_stack" value="" /></dd>
+
+			<dt><strong>Perfect Pallet Pickup notification required?</strong></dt>
+			<dd><input type="checkbox" name="pickup_notification" value="" /></dd>
+
+			<dt><strong>If yes, what type of notification do you require?</strong></dt>
+			<dd>
+				<input type="checkbox" name="notification_email" value="" /> Email
+				<br /><input type="checkbox" name="notification_phone" value="" /> Telephone
+				<br /><input type="checkbox" name="notification_fax" value="" /> Fax
+			</dd>
+
+			<dt><strong>Recycling Equipment</strong></dt>
+			<dd>
+				<input type="checkbox" name="recycling_bailers" value="" /> Paper Bailers 
+				<br /><input type="checkbox" name="recycling_compactors" value="" /> Compactors
+				<br /><input type="checkbox" name="recycling_dumpsters" value="" /> Dumpsters
+			</dd>
+
+			<dt><strong>Do you ship out to a local recycler(s)?</strong></dt>
+			<dd><input type="checkbox" name="pickup_notification" value="" /></dd>
+
+			<dt><strong>If yes:</strong></dt>
+			<dd>
+				Recycler's Name: <input size="50" type="text" name="recycler_name" value="" />
+				<br />Recycler's Phone Number: <input size="50" type="text" name="recycler_phone" value="" />
+			</dd>
+
+			<dt><strong>Do you own in house plastic pallets?: </strong></dt>
+			<dd><input type="checkbox" name="inhouse_pallet" value="" /></dd>
+
+			<dt><strong>If yes:</strong></dt>
+			<dd>
+				What kind? <input size="50" type="text" name="inhouse_pallet_type" value="" />
+				<br />How many? <input size="50" type="text" name="inhouse_pallet_number" value="" />
+			</dd>
+
+			<dt><strong>Additional comments regarding your purchased plastic pallets? (Please share):</strong></dt>
+			<dd><textarea class="editor" cols="50" rows="5" name="pallet_return_details"></textarea></dd>
+
 			<hr class="hrcolor clear" width="100%" size="1" />
 			<div class="righttext"><input class="button_submit" type="submit" value="Save Profile" /></div>
-		</form>
-		';
+		</dl>
+	</form>
+	<?php
+	$content = ob_get_contents();
+	ob_end_clean();
+
 
 	_mailroommatters_render($content, $pageDescription);
 }
@@ -324,21 +516,29 @@ function _mailroommatters_editField($field) {
 			if (!array_key_exists('value', $field)) {
 				$field['value'] = '1';
 			}
-			$fieldInput = '<input type="checkbox" name="'. $field['database_field'] .'" value="'. $field['value'] .'" '. ($currentValue == $field['value'] ? ' checked' : '') .'/>';
+
+			$fieldInput = '<input type="checkbox" id="'. $field['database_field'] .'" name="'. $field['database_field'] .'" value="'. $field['value'] .'" '. ($currentValue == $field['value'] ? ' checked' : '') .'/> <label for="'. $field['database_field'] .'">'. $field['label'] . ($field['required'] ? ' *' : '') .'</label><br />';
+
+			// Do not wrap
+			return $fieldInput;
 			break;
 
+		case 'yesno':
+			$field['options'] = array(0 => 'No', 1 => 'Yes');
+
 		case 'select':
-			if (!in_array($currentValue, $field['options'])) {
-				$field['options'][] = $currentValue;
-			}
-			foreach ($field['options'] as $option) {
-				$fieldInput .= '<option value="'. $option .'"'. ($option == $currentValue ? ' selected' : '') .'>'. $option .'</option>';
+			foreach ($field['options'] as $value => $label) {
+				$fieldInput .= '<option value="'. $value .'"'. ($value == $currentValue ? ' selected' : '') .'>'. $label .'</option>';
 			}
 			$fieldInput = '<select name="'. $field['database_field'] .'">'. $fieldInput .'</select>';
 			break;
 
 		case 'text':
 			$properties['size'] = '50';
+
+		// case 'number':
+		// 	$properties['size'] = '20';
+		// 	$field['type'] = 'text';
 
 		default:
 			$properties['type'] = $field['type'];
@@ -350,10 +550,18 @@ function _mailroommatters_editField($field) {
 			$fieldInput = '<input '. $fieldInput .'/>';
 	}
 
-	$content = '
-		<dt><strong>'. $field['label'] .'</strong>'. (empty($field['subtext']) ? '' : '<br /><span class="smalltext">'. $field['subtext'] .'</span>') .'</dt>
-		<dd>'. $fieldInput .'</dd>
-		';
+	if ($field['required']) {
+		$field['label'] .= ' *';
+	}
+
+	$content = sprintf(
+		($field['no_dt'] ? '%s%s<br />%s%s' : '<dt>%s%s</dt><dd>%s%s</dd>'),
+		($field['label_subtle'] ? $field['label'] : '<strong>'. $field['label'] .'</strong>'),
+		(empty($field['subtext']) ? '' : '<br /><span class="smalltext">'. $field['subtext'] .'</span>'),
+		$fieldInput,
+		(empty($field['after_input']) ? '' : ' '. $field['after_input'])
+		);
+
 	return $content;
 }
 

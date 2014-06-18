@@ -255,7 +255,14 @@ $columns = array(
 		'default' => null,
 		),
 	array(
-		'name' => 'insert_advance_days',
+		'name' => 'advanced_receiving_sundays',
+		'type' => 'int',
+		'size' => '5',
+		'null' => true,
+		'default' => null
+		),
+	array(
+		'name' => 'advanced_receiving_daily',
 		'type' => 'int',
 		'size' => '5',
 		'null' => true,
@@ -266,11 +273,47 @@ $columns = array(
 		'type' => 'text',
 		),
 	array(
+		'name' => 'receiving_challenges_difficult_access',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'receiving_challenges_no_turnaround',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'receiving_challenges_unpaved',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
 		'name' => 'receiving_challenges_comments',
 		'type' => 'text',
 		),
 	array(
-		'name' => 'driver_privileges_access',
+		'name' => 'driver_privileges_office_only',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'driver_privileges_truck_only',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'driver_privileges_unloading_participation',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'driver_privileges_comments',
 		'type' => 'text',
 		),
 	array(

@@ -377,280 +377,381 @@ function _Mailroommatters_saveQueryField($fieldDefinition, &$fieldList, &$replac
  */
 function _Mailroommatters_profileFields() {
 	return array(
-		'company_details' => array(
-			'type' => 'section',
-			'label' => 'Newspaper/Company Contact Information',
-			'fields' => array(
-				'newspaper_name' => array(
-					'database_field' => 'newspaper_name',
-					'type' => 'text',
-					'label' => 'Name'
-				),
-				'address' => array(
-					'database_field' => 'address',
-					'type' => 'text',
-					'label' => 'Address'
-				),
-				'address2' => array(
-					'database_field' => 'address2',
-					'type' => 'text',
-					'label' => 'Address Line 2'
-				),
-				'city' => array(
-					'database_field' => 'city',
-					'type' => 'text',
-					'label' => 'City'
-				),
-				'state' => array(
-					'database_field' => 'state',
-					'type' => 'text',
-					'label' => 'State'
-				),
-				'country' => array(
-					'database_field' => 'country',
-					'type' => 'text',
-					'label' => 'Country'
-				),
-				'zip' => array(
-					'database_field' => 'zip',
-					'type' => 'text',
-					'label' => 'Zip Code'
-				),
-				'phone_emergency' => array(
-					'database_field' => 'phone_emergency',
-					'type' => 'text',
-					'label' => 'Emergency Phone Number'
-				),
-				'phone_security' => array(
-					'database_field' => 'phone_security',
-					'type' => 'text',
-					'label' => 'Security Guard Phone Number'
-				),
+		'newspaper_name' => array(
+			'database_field' => 'newspaper_name',
+			'type' => 'text',
+			'label' => 'Newspaper/Company Name',
+			'required' => true
+		),
+		'address' => array(
+			'database_field' => 'address',
+			'type' => 'text',
+			'label' => 'Address',
+			'required' => true
+		),
+		'address2' => array(
+			'database_field' => 'address2',
+			'type' => 'text',
+			'label' => 'Address Line 2',
+			'required' => true
+		),
+		'city' => array(
+			'database_field' => 'city',
+			'type' => 'text',
+			'label' => 'City',
+			'required' => true
+		),
+		'state' => array(
+			'database_field' => 'state',
+			'type' => 'select',
+			'label' => 'State',
+			'required' => true,
+			'options' => array(
+				'--' => '- Select Province/State -',
+				'' => '',
+				'AL' => 'Alabama',
+				'AK' => 'Alaska',
+				'AZ' => 'Arizona',
+				'AR' => 'Arkansas',
+				'CA' => 'California',
+				'CO' => 'Colorado',
+				'CT' => 'Connecticut',
+				'DE' => 'Delaware',
+				'DC' => 'District Of Columbia',
+				'FL' => 'Florida',
+				'GA' => 'Georgia',
+				'HI' => 'Hawaii',
+				'ID' => 'Idaho',
+				'IL' => 'Illinois',
+				'IN' => 'Indiana',
+				'IA' => 'Iowa',
+				'KS' => 'Kansas',
+				'KY' => 'Kentucky',
+				'LA' => 'Louisiana',
+				'ME' => 'Maine',
+				'MD' => 'Maryland',
+				'MA' => 'Massachusetts',
+				'MI' => 'Michigan',
+				'MN' => 'Minnesota',
+				'MS' => 'Mississippi',
+				'MO' => 'Missouri',
+				'MT' => 'Montana',
+				'NE' => 'Nebraska',
+				'NV' => 'Nevada',
+				'NH' => 'New Hampshire',
+				'NJ' => 'New Jersey',
+				'NM' => 'New Mexico',
+				'NY' => 'New York',
+				'NC' => 'North Carolina',
+				'ND' => 'North Dakota',
+				'OH' => 'Ohio',
+				'OK' => 'Oklahoma',
+				'OR' => 'Oregon',
+				'PA' => 'Pennsylvania',
+				'RI' => 'Rhode Island',
+				'SC' => 'South Carolina',
+				'SD' => 'South Dakota',
+				'TN' => 'Tennessee',
+				'TX' => 'Texas',
+				'UT' => 'Utah',
+				'VT' => 'Vermont',
+				'VA' => 'Virginia',
+				'WA' => 'Washington',
+				'WV' => 'West Virginia',
+				'WI' => 'Wisconsin',
+				'WY' => 'Wyoming',
+				'=' => '====================',
+				'AB' => 'Alberta',
+				'BC' => 'British Columbia',
+				'MB' => 'Manitoba',
+				'NB' => 'New Brunswick',
+				'NL' => 'Newfoundland and Labrador',
+				'NS' => 'Nova Scotia',
+				'NT' => 'Northwest Territories',
+				'NU' => 'Nunavut',
+				'ON' => 'Ontario',
+				'PE' => 'Prince Edward Island',
+				'QC' => 'Quebec',
+				'SK' => 'Saskatchewan',
+				'YT' => 'Yukon'
 			)
 		),
-		'primary_contact' => array(
-			'type' => 'section',
-			'label' => 'Primary Point of Contact',
-			'fields' => array(
-				'primary_name' => array(
-					'database_field' => 'primary_name',
-					'type' => 'text',
-					'label' => 'Primary Point of Contact'
-				),
-				'primary_position' => array(
-					'database_field' => 'primary_position',
-					'type' => 'text',
-					'label' => 'Position'
-				),
-				'primary_phone' => array(
-					'database_field' => 'primary_phone',
-					'type' => 'text',
-					'label' => 'Phone'
-				),
-				'primary_fax' => array(
-					'database_field' => 'primary_fax',
-					'type' => 'text',
-					'label' => 'Fax'
-				),
-				'primary_email' => array(
-					'database_field' => 'primary_email',
-					'type' => 'text',
-					'label' => 'Email'
-				),
+		'country' => array(
+			'database_field' => 'country',
+			'type' => 'text',
+			'label' => 'Country',
+			'required' => true
+		),
+		'zip' => array(
+			'database_field' => 'zip',
+			'type' => 'text',
+			'label' => 'ZIP/Postal Code',
+			'required' => true
+		),
+		'phone_emergency' => array(
+			'database_field' => 'phone_emergency',
+			'type' => 'text',
+			'label' => 'Emergency Phone Number'
+		),
+		'phone_security' => array(
+			'database_field' => 'phone_security',
+			'type' => 'text',
+			'label' => 'Security Guard Phone Number'
+		),
+		'primary_name' => array(
+			'database_field' => 'primary_name',
+			'type' => 'text',
+			'label' => 'Name',
+			'required' => true
+		),
+		'primary_position' => array(
+			'database_field' => 'primary_position',
+			'type' => 'text',
+			'label' => 'Position',
+			'required' => true
+		),
+		'primary_phone' => array(
+			'database_field' => 'primary_phone',
+			'type' => 'text',
+			'label' => 'Phone',
+			'required' => true
+		),
+		'primary_fax' => array(
+			'database_field' => 'primary_fax',
+			'type' => 'text',
+			'label' => 'Fax',
+			'required' => true
+		),
+		'primary_email' => array(
+			'database_field' => 'primary_email',
+			'type' => 'text',
+			'label' => 'Email',
+			'required' => true
+		),
+		'secondary_name' => array(
+			'database_field' => 'secondary_name',
+			'type' => 'text',
+			'label' => 'Primary Point of Contact'
+		),
+		'secondary_position' => array(
+			'database_field' => 'secondary_position',
+			'type' => 'text',
+			'label' => 'Position'
+		),
+		'secondary_phone' => array(
+			'database_field' => 'secondary_phone',
+			'type' => 'text',
+			'label' => 'Phone'
+		),
+		'secondary_fax' => array(
+			'database_field' => 'secondary_fax',
+			'type' => 'text',
+			'label' => 'Fax'
+		),
+		'secondary_email' => array(
+			'database_field' => 'secondary_email',
+			'type' => 'text',
+			'label' => 'Email'
+		),
+		'extension_requests_name' => array(
+			'database_field' => 'extension_requests_name',
+			'type' => 'text',
+			'label' => 'Name',
+			'required' => true
+		),
+		'extension_requests_position' => array(
+			'database_field' => 'extension_requests_position',
+			'type' => 'text',
+			'label' => 'Position',
+			'required' => true
+		),
+		'extension_requests_phone' => array(
+			'database_field' => 'extension_requests_phone',
+			'type' => 'text',
+			'label' => 'Phone',
+			'required' => true
+		),
+		'extension_requests_fax' => array(
+			'database_field' => 'extension_requests_fax',
+			'type' => 'text',
+			'label' => 'Fax'
+		),
+		'extension_requests_email' => array(
+			'database_field' => 'extension_requests_email',
+			'type' => 'text',
+			'label' => 'Email'
+		),
+		'extension_requests_comments' => array(
+			'database_field' => 'extension_requests_comments',
+			'type' => 'textarea',
+			'label' => 'Extension Comments'
+		),
+		'circulation_day' => array(
+			'database_field' => 'circulation_day',
+			'type' => 'text',
+			'label' => 'Circulation Day'
+		),
+		'circulation_volume' => array(
+			'database_field' => 'circulation_volume',
+			'type' => 'select',
+			'label' => 'Approximate Sunday Circulation',
+			'required' => true,
+			'options' => array(
+				'0-50000' => 'Below 50,000',
+				'50000-80000' => '50,000 - 80,000',
+				'80000-120000' => '80,000 - 120,000',
+				'120000-200000' => '120,000 - 200,000',
+				'200000+' => 'Above 200,000',
 			)
 		),
-		'secondary_contact' => array(
-			'type' => 'section',
-			'label' => 'Secondary Point of Contact',
-			'fields' => array(
-				'secondary_name' => array(
-					'database_field' => 'secondary_name',
-					'type' => 'text',
-					'label' => 'Primary Point of Contact'
-				),
-				'secondary_position' => array(
-					'database_field' => 'secondary_position',
-					'type' => 'text',
-					'label' => 'Position'
-				),
-				'secondary_phone' => array(
-					'database_field' => 'secondary_phone',
-					'type' => 'text',
-					'label' => 'Phone'
-				),
-				'secondary_fax' => array(
-					'database_field' => 'secondary_fax',
-					'type' => 'text',
-					'label' => 'Fax'
-				),
-				'secondary_email' => array(
-					'database_field' => 'secondary_email',
-					'type' => 'text',
-					'label' => 'Email'
-				),
-			)
+		'forklifts' => array(
+			'database_field' => 'forklifts',
+			'type' => 'number',
+			'label' => 'Number of Forklifts'
 		),
-		'extension_contact' => array(
-			'type' => 'section',
-			'label' => 'Extension Requests Contact',
-			'fields' => array(
-				'extension_requests_name' => array(
-					'database_field' => 'extension_requests_name',
-					'type' => 'text',
-					'label' => 'Name'
-				),
-				'extension_requests_position' => array(
-					'database_field' => 'extension_requests_position',
-					'type' => 'text',
-					'label' => 'Position'
-				),
-				'extension_requests_phone' => array(
-					'database_field' => 'extension_requests_phone',
-					'type' => 'text',
-					'label' => 'Phone'
-				),
-				'extension_requests_fax' => array(
-					'database_field' => 'extension_requests_fax',
-					'type' => 'text',
-					'label' => 'Fax'
-				),
-				'extension_requests_email' => array(
-					'database_field' => 'extension_requests_email',
-					'type' => 'text',
-					'label' => 'Email'
-				),
-				'extension_requests_comments' => array(
-					'database_field' => 'extension_requests_comments',
-					'type' => 'textarea',
-					'label' => 'Comments'
-				),
-			)
+		'pallet_jacks' => array(
+			'database_field' => 'pallet_jacks',
+			'type' => 'number',
+			'label' => 'Number of Pallet Jacks'
 		),
-		'equipment_capabilities' => array(
-			'type' => 'section',
-			'label' => 'Company Details and Equipment',
-			'fields' => array(
-				'circulation_day' => array(
-					'database_field' => 'circulation_day',
-					'type' => 'text',
-					'label' => 'Circulation Day'
-				),
-				'circulation_volume' => array(
-					'database_field' => 'circulation_volume',
-					'type' => 'text',
-					'label' => 'Circulation Volume'
-				),
-				'forklifts' => array(
-					'database_field' => 'forklifts',
-					'type' => 'number',
-					'label' => 'Number of Forklifts'
-				),
-				'pallet_jacks' => array(
-					'database_field' => 'pallet_jacks',
-					'type' => 'number',
-					'label' => 'Number of Pallet Jacks'
-				),
-				'staff_receiving' => array(
-					'database_field' => 'staff_receiving',
-					'type' => 'number',
-					'label' => 'Number of Receiving Staff'
-				),
-				'staff_inserting' => array(
-					'database_field' => 'staff_inserting',
-					'type' => 'number',
-					'label' => 'Number of Inserting Staff'
-				),
-				'commercial_printing' => array(
-					'database_field' => 'commercial_printing',
-					'type' => 'check',
-					'label' => 'Commercial Printing',
-					'value' => '1'
-				),
-				'digital_pictures' => array(
-					'database_field' => 'digital_pictures',
-					'type' => 'check',
-					'label' => 'Provide Digital Pictures for Failed Loads',
-					'value' => '1'
-				),
-				'load_packaging' => array(
-					'database_field' => 'load_packaging',
-					'type' => 'select',
-					'label' => 'Load Packaging',
-					'options' => array('', 'Palletize', '?')
-				),
-				'insert_advance_days' => array(
-					'database_field' => 'insert_advance_days',
-					'type' => 'number',
-					'label' => 'Advanced Insert Receiving Times',
-					'subtext' => 'Days in advance that inserts must be received'
-				),
-				'inserting_equipment' => array(
-					'database_field' => 'inserting_equipment',
-					'type' => 'textarea',
-					'label' => 'Inserting Equipment'
-				),
-				'unloading_equipment' => array(
-					'database_field' => 'unloading_equipment',
-					'type' => 'textarea',
-					'label' => 'Special Unloading Equipment'
-				),
-				'receiving_challenges_comments' => array(
-					'database_field' => 'receiving_challenges_comments',
-					'type' => 'textarea',
-					'label' => 'Receiving Challenges or Comments'
-				),
-				'driver_privileges_access' => array(
-					'database_field' => 'driver_privileges_access',
-					'type' => 'textarea',
-					'label' => 'Driver Privileges and Access'
-				),
-				'special_requirements' => array(
-					'database_field' => 'special_requirements',
-					'type' => 'textarea',
-					'label' => 'Special Requirements'
-				),
-			)
+		'staff_receiving' => array(
+			'database_field' => 'staff_receiving',
+			'type' => 'number',
+			'label' => 'Number of Receiving Staff'
 		),
-		'hours' => array(
-			'type' => 'section',
-			'label' => 'Receiving Days and Hours for Insert Delivery',
-			'fields' => array(
-				'hours_monday' => array(
-					'database_field' => 'hours_monday',
-					'type' => 'text',
-					'label' => 'Monday'
-				),
-				'hours_tuesday' => array(
-					'database_field' => 'hours_tuesday',
-					'type' => 'text',
-					'label' => 'Tuesday'
-				),
-				'hours_wednesday' => array(
-					'database_field' => 'hours_wednesday',
-					'type' => 'text',
-					'label' => 'Wednesday'
-				),
-				'hours_thursday' => array(
-					'database_field' => 'hours_thursday',
-					'type' => 'text',
-					'label' => 'Thursday'
-				),
-				'hours_friday' => array(
-					'database_field' => 'hours_friday',
-					'type' => 'text',
-					'label' => 'Friday'
-				),
-				'hours_saturday' => array(
-					'database_field' => 'hours_saturday',
-					'type' => 'text',
-					'label' => 'Saturday'
-				),
-				'hours_sunday' => array(
-					'database_field' => 'hours_sunday',
-					'type' => 'text',
-					'label' => 'Sunday'
-				),
-			)
+		'staff_inserting' => array(
+			'database_field' => 'staff_inserting',
+			'type' => 'number',
+			'label' => 'Number of Inserting Staff'
+		),
+		'commercial_printing' => array(
+			'database_field' => 'commercial_printing',
+			'type' => 'yesno',
+			'label' => 'Do you do commercial printing?'
+		),
+		'digital_pictures' => array(
+			'database_field' => 'digital_pictures',
+			'type' => 'yesno',
+			'label' => 'Digital picture capabilities for failed loads?'
+		),
+		'load_packaging' => array(
+			'database_field' => 'load_packaging',
+			'type' => 'textarea',
+			'label' => 'How do you package your loads?',
+		),
+		'advanced_receiving_sundays' => array(
+			'database_field' => 'advanced_receiving_sundays',
+			'type' => 'number',
+			'label' => 'Sunday',
+			'after_input' => 'days',
+			'required' => true
+		),
+		'advanced_receiving_daily' => array(
+			'database_field' => 'advanced_receiving_daily',
+			'type' => 'number',
+			'label' => 'Daily',
+			'after_input' => 'days',
+			'required' => true
+		),
+		'inserting_equipment' => array(
+			'database_field' => 'inserting_equipment',
+			'type' => 'textarea',
+			'label' => 'Inserting equipment, stackers, etc. (please provide as much detail as possible)'
+		),
+		'unloading_equipment' => array(
+			'database_field' => 'unloading_equipment',
+			'type' => 'textarea',
+			'label' => 'Special Unloading Equipment'
+		),
+		'receiving_challenges_difficult_access' => array(
+			'database_field' => 'receiving_challenges_difficult_access',
+			'type' => 'check',
+			'label' => 'Difficult access for truck/trailer due to small laneway or road',
+			'value' => '1'
+		),
+		'receiving_challenges_no_turnaround' => array(
+			'database_field' => 'receiving_challenges_no_turnaround',
+			'type' => 'check',
+			'label' => 'No truck/trailer turn around area',
+			'value' => '1'
+		),
+		'receiving_challenges_unpaved' => array(
+			'database_field' => 'receiving_challenges_unpaved',
+			'type' => 'check',
+			'label' => 'Unpaved road or poor road repair',
+			'value' => '1'
+		),
+		'receiving_challenges_comments' => array(
+			'database_field' => 'receiving_challenges_comments',
+			'type' => 'textarea',
+			'label' => 'Other:',
+			'label_subtle' => true,
+			'no_dt' => true
+		),
+		'driver_privileges_office_only' => array(
+			'database_field' => 'driver_privileges_office_only',
+			'type' => 'check',
+			'label' => 'Shipping office only',
+			'value' => '1'
+		),
+		'driver_privileges_truck_only' => array(
+			'database_field' => 'driver_privileges_truck_only',
+			'type' => 'check',
+			'label' => 'Stay in truck',
+			'value' => '1'
+		),
+		'driver_privileges_unloading_participation' => array(
+			'database_field' => 'driver_privileges_unloading_participation',
+			'type' => 'check',
+			'label' => 'Unloading participation supported',
+			'value' => '1'
+		),
+		'driver_privileges_comments' => array(
+			'database_field' => 'driver_privileges_comments',
+			'type' => 'textarea',
+			'label' => 'Other:',
+			'label_subtle' => true,
+			'no_dt' => true
+		),
+		'special_requirements' => array(
+			'database_field' => 'special_requirements',
+			'type' => 'textarea',
+			'label' => 'Special Requirements'
+		),
+		'hours_monday' => array(
+			'database_field' => 'hours_monday',
+			'type' => 'text',
+			'label' => 'Monday *'
+		),
+		'hours_tuesday' => array(
+			'database_field' => 'hours_tuesday',
+			'type' => 'text',
+			'label' => 'Tuesday *'
+		),
+		'hours_wednesday' => array(
+			'database_field' => 'hours_wednesday',
+			'type' => 'text',
+			'label' => 'Wednesday *'
+		),
+		'hours_thursday' => array(
+			'database_field' => 'hours_thursday',
+			'type' => 'text',
+			'label' => 'Thursday *'
+		),
+		'hours_friday' => array(
+			'database_field' => 'hours_friday',
+			'type' => 'text',
+			'label' => 'Friday *'
+		),
+		'hours_saturday' => array(
+			'database_field' => 'hours_saturday',
+			'type' => 'text',
+			'label' => 'Saturday *'
+		),
+		'hours_sunday' => array(
+			'database_field' => 'hours_sunday',
+			'type' => 'text',
+			'label' => 'Sunday *'
 		)
 	);
 }
