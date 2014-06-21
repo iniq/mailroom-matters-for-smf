@@ -684,9 +684,7 @@ function _Mailroommatters_profileFields() {
 		'receiving_challenges_comments' => array(
 			'database_field' => 'receiving_challenges_comments',
 			'type' => 'textarea',
-			'label' => 'Other:',
-			'label_subtle' => true,
-			'no_dt' => true
+			'label' => 'Other:'
 		),
 		'driver_privileges_office_only' => array(
 			'database_field' => 'driver_privileges_office_only',
@@ -709,9 +707,7 @@ function _Mailroommatters_profileFields() {
 		'driver_privileges_comments' => array(
 			'database_field' => 'driver_privileges_comments',
 			'type' => 'textarea',
-			'label' => 'Other:',
-			'label_subtle' => true,
-			'no_dt' => true
+			'label' => 'Other:'
 		),
 		'special_requirements' => array(
 			'database_field' => 'special_requirements',
@@ -752,6 +748,6 @@ function _Mailroommatters_profileFields() {
 			'database_field' => 'hours_sunday',
 			'type' => 'text',
 			'label' => 'Sunday *'
-		)
+		),
 	);
 }

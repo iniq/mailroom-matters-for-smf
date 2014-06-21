@@ -306,7 +306,7 @@ function template_mailroommatters_edit() {
 				echo _mailroommatters_editField($context['mailroommatters']['fields']['receiving_challenges_unpaved']);
 				?>
 				<br />
-				<?php echo _mailroommatters_editField($context['mailroommatters']['fields']['receiving_challenges_comments']); ?>
+				<?php echo _mailroommatters_editField($context['mailroommatters']['fields']['receiving_challenges_comments'], $wrap = false, $bold = false); ?>
 			</dd>
 
 			<dt><strong>Driver Privileges and Access</strong></dt>
@@ -317,7 +317,7 @@ function template_mailroommatters_edit() {
 				echo _mailroommatters_editField($context['mailroommatters']['fields']['driver_privileges_unloading_participation']);
 				?>
 				<br />
-				<?php echo _mailroommatters_editField($context['mailroommatters']['fields']['driver_privileges_comments']); ?>
+				<?php echo _mailroommatters_editField($context['mailroommatters']['fields']['driver_privileges_comments'], $wrap = false, $bold = false); ?>
 			</dd>
 
 			<?php echo _mailroommatters_editField($context['mailroommatters']['fields']['digital_pictures']); ?>
@@ -497,7 +497,7 @@ function _mailroommatters_renderSection($section, $fieldRenderCallback = '_mailr
  * @param array $field
  * @return string
  */
-function _mailroommatters_editField($field) {
+function _mailroommatters_editField($field, $wrap = true, $strongTitle = true) {
 	global $context;
 
 	$fieldInput = '';
@@ -555,8 +555,8 @@ function _mailroommatters_editField($field) {
 	}
 
 	$content = sprintf(
-		($field['no_dt'] ? '%s%s<br />%s%s' : '<dt>%s%s</dt><dd>%s%s</dd>'),
-		($field['label_subtle'] ? $field['label'] : '<strong>'. $field['label'] .'</strong>'),
+		($wrap ? '<dt>%s%s</dt><dd>%s%s</dd>' : '%s%s<br />%s%s'),
+		($strongTitle ? '<strong>'. $field['label'] .'</strong>' : $field['label']),
 		(empty($field['subtext']) ? '' : '<br /><span class="smalltext">'. $field['subtext'] .'</span>'),
 		$fieldInput,
 		(empty($field['after_input']) ? '' : ' '. $field['after_input'])
