@@ -154,11 +154,6 @@ $columns = array(
 		'type' => 'text',
 		),
 	array(
-		'name' => 'circulation_day',
-		'type' => 'varchar',
-		'size' => 128,
-		),
-	array(
 		'name' => 'circulation_volume',
 		'type' => 'varchar',
 		'size' => 128,
@@ -315,12 +310,6 @@ $columns = array(
 	array(
 		'name' => 'driver_privileges_comments',
 		'type' => 'text',
-		),
-	array(
-		'name' => 'special_requirements',
-		'type' => 'text',
-		'null' => true,
-		'default' => null
 		),
 	array(
 		'name' => 'digital_pictures',

@@ -587,11 +587,6 @@ function _Mailroommatters_profileFields() {
 			'type' => 'textarea',
 			'label' => 'Extension Comments'
 		),
-		'circulation_day' => array(
-			'database_field' => 'circulation_day',
-			'type' => 'text',
-			'label' => 'Circulation Day'
-		),
 		'circulation_volume' => array(
 			'database_field' => 'circulation_volume',
 			'type' => 'select',
@@ -709,11 +704,6 @@ function _Mailroommatters_profileFields() {
 			'database_field' => 'driver_privileges_comments',
 			'type' => 'textarea',
 			'label' => 'Other:'
-		),
-		'special_requirements' => array(
-			'database_field' => 'special_requirements',
-			'type' => 'textarea',
-			'label' => 'Special Requirements'
 		),
 		'hours_monday' => array(
 			'database_field' => 'hours_monday',
