@@ -529,7 +529,17 @@ function _mailroommatters_editField($field, $wrap = true, $strongTitle = true, $
 				$field['value'] = '1';
 			}
 
-			$fieldInput = '<input type="checkbox" id="'. $field['database_field'] .'" name="'. $field['database_field'] .'" value="'. $field['value'] .'" '. ($currentValue == $field['value'] ? ' checked' : '') .'/> <label for="'. $field['database_field'] .'">'. $field['label'] . ($field['required'] ? ' *' : '') .'</label><br />';
+			$fieldInput = sprintf(
+				'<input type="hidden" name="%s" value="0" /><input type="checkbox" id="%s", name="%s", value="%s" %s/> <label for="%s">%s%s</label><br />',
+				$field['database_field'],
+				$field['database_field'],
+				$field['database_field'],
+				$field['value'],
+				($currentValue == $field['value'] ? 'checked ' : ''),
+				$field['database_field'],
+				$field['label'],
+				($field['required'] ? '*' : '')
+				);
 
 			// Do not wrap
 			return $fieldInput;
