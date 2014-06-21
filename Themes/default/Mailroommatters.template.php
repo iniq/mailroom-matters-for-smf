@@ -514,7 +514,7 @@ function _mailroommatters_editField($field, $wrap = true, $strongTitle = true, $
 
 	$fieldInput = '';
 	$properties = array();
-	$currentValue = $context['mailroommatters']['profile'][$field['database_field']];
+	$currentValue = (array_key_exists('save_value', $field) ? $field['save_value'] : $context['mailroommatters']['profile'][$field['database_field']]);
 
 	switch ($field['type']) {
 		case 'section':
@@ -576,13 +576,35 @@ function _mailroommatters_editField($field, $wrap = true, $strongTitle = true, $
 		$field['label'] .= ' *';
 	}
 
-	$content = sprintf(
-		($wrap ? '<dt>%s%s</dt><dd>%s%s</dd>' : ($inline ? '%s%s: %s%s<br />' : '%s%s<br />%s%s')),
-		($strongTitle ? '<strong>'. $field['label'] .'</strong>' : $field['label']),
-		(empty($field['subtext']) ? '' : '<br /><span class="smalltext">'. $field['subtext'] .'</span>'),
-		$fieldInput,
-		(empty($field['after_input']) ? '' : ' '. $field['after_input'])
-		);
+	if ($wrap) {
+		$content = sprintf(
+			'<dt>%s%s%s</dt><dd>%s%s</dd>',
+			$field['label'],
+			(empty($field['error']) ? '' : ' <span class="smalltext error">'. $field['error'] .'</span>'),
+			(empty($field['subtext']) ? '' : '<br /><span class="smalltext">'. $field['subtext'] .'</span>'),
+			$fieldInput,
+			(empty($field['after_input']) ? '' : ' '. $field['after_input'])
+			);
+	} elseif ($inline) {
+		$content = sprintf(
+			'%s: %s %s%s %s<br />',
+			($strongTitle ? '<strong>'. $field['label'] .'</strong>' : $field['label']),
+			(empty($field['subtext']) ? '' : '<span class="smalltext">'. $field['subtext'] .'</span>'),
+			$fieldInput,
+			(empty($field['after_input']) ? '' : ' '. $field['after_input']),
+			(empty($field['error']) ? '' : '<span class="smalltext error">'. $field['error'] .'</span>')
+			);
+	} else {
+		$content = sprintf(
+			'%s%s%s<br />%s%s',
+			($strongTitle ? '<strong>'. $field['label'] .'</strong>' : $field['label']),
+			(empty($field['error']) ? '' : '<span class="smalltext error">'. $field['error'] .'</span>'),
+			(empty($field['subtext']) ? '' : '<br /><span class="smalltext">'. $field['subtext'] .'</span>'),
+			$fieldInput,
+			(empty($field['after_input']) ? '' : ' '. $field['after_input'])
+			);
+	}
+
 
 	return $content;
 }

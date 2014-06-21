@@ -103,38 +103,40 @@ function MailroomMattersEdit() {
 
 	$memberID = intval(_Mailroommatters_actorID());
 	$profile = _Mailroommatters_profile($memberID);
+	$profileFields = null;
 
 	if (isset($_REQUEST['save'])) {
 		$context['error_message'] = '';
-
-		// Check for various known error states
-		if (empty($_POST['newspaper_name'])) {
-			$context['error_message'] .= 'You must provide a Newspaper Name<br />';
-		}
 
 		// If no errors found, attempt the save
 		if (empty($context['error_message'])) {
 			$fieldList = array('last_modified = {int:last_modified}');
 			$replacements = array('id_member' => $memberID, 'last_modified' => time());
-			$profileFields = _Mailroommatters_profileFields();
 
-			$inserting = (empty($profile));
+			// Required before calling save; sets up values to save, checks validations
+			$profileFields = _Mailroommatters_prepareFieldsForSave(_Mailroommatters_profileFields());
 
-			if ($inserting) {
-				$fieldList[] = 'id_member = {int:id_member}';
-			}
+			if (!$profileFields['errors']) {
+				$inserting = (empty($profile));
 
-			_Mailroommatters_saveQuerySection($profileFields, $fieldList, $replacements);
+				if ($inserting) {
+					$fieldList[] = 'id_member = {int:id_member}';
+				}
 
-			$updateQuery = sprintf(
-				'%s {db_prefix}mm_profiles SET %s%s',
-				($inserting ? 'INSERT INTO' : 'UPDATE'),
-				implode(', ', $fieldList),
-				($inserting ? '' : ' WHERE id_member = {int:id_member}')
-				);
+				_Mailroommatters_saveQuerySection($profileFields['fields'], $fieldList, $replacements);
 
-			if ($smcFunc['db_query']('', $updateQuery, $replacements)) {
-				redirectexit('action=mailroom_matters;area=me');
+				$updateQuery = sprintf(
+					'%s {db_prefix}mm_profiles SET %s%s',
+					($inserting ? 'INSERT INTO' : 'UPDATE'),
+					implode(', ', $fieldList),
+					($inserting ? '' : ' WHERE id_member = {int:id_member}')
+					);
+
+				if ($smcFunc['db_query']('', $updateQuery, $replacements)) {
+					redirectexit('action=mailroom_matters;area=me');
+				}
+			} else {
+				$context['error_message'] = 'Errors were found in the information you provided. Please update your responses and try again';
 			}
 		}
 
@@ -145,7 +147,10 @@ function MailroomMattersEdit() {
 		}
 	}
 
-	$context['mailroommatters']['fields'] = _Mailroommatters_profileFields();
+	if (empty($profileFields['fields'])) {
+		$profileFields['fields'] = _Mailroommatters_profileFields();
+	}
+	$context['mailroommatters']['fields'] = $profileFields['fields'];
 
 	$_GET['action'] = 'mailroom_matters';
 	$context['page_title'] .= ' - Edit Your Profile';
@@ -317,6 +322,49 @@ function _Mailroommatters_profile($memberID = null) {
 
 
 /**
+ * Set values to be saved into the array, and check if any validation rules are defined against the field.
+ * If so, validate and generate any applicable errors.
+ * Assumes sections no longer exist in the field definition.
+ *
+ * @param array $profileFields
+ * @return array Index 'errors' is bool, index 'fields' is the updated contents of $profileFields
+ */
+function _Mailroommatters_prepareFieldsForSave($profileFields) {
+	$errors = false;
+
+	foreach ($profileFields as $index => $currentField) {
+		$errorMessage = null;
+		$saveValue = null;
+
+		if (array_key_exists($currentField['database_field'], $_POST)) {
+			$saveValue = $_POST[$currentField['database_field']];
+		}
+
+		// Run any validations here
+		if ($currentField['type'] == 'select') {
+			// Translate placeholders to empty
+			if (in_array($saveValue, array('', '--', '='))) {
+				$saveValue = '';
+			}
+			if (!array_key_exists($saveValue, $currentField['options'])) {
+				$saveValue = '';
+			}
+		}
+
+		if ($currentField['required'] && empty($saveValue)) {
+			$errors = true;
+			$errorMessage = 'This is a required field';
+		}
+
+		// Update $profileFields at the end of it all
+		$profileFields[$index]['save_value'] = $saveValue;
+		$profileFields[$index]['error'] = $errorMessage;
+	}
+
+	return array('errors' => $errors, 'fields' => $profileFields);
+}
+
+/**
  * Generate field clause and insertion array value for a section of defined fields.
  * Being done by reference and without injecting submitted fields list for memory concern reasons
  *
@@ -332,9 +380,10 @@ function _Mailroommatters_saveQuerySection($profileFields, &$fieldList, &$replac
 
 /**
  * Generate field clause and insertion array value for a defined field
- * Being done by reference and without injecting submitted fields list for memory concern reasons
+ * Being done by reference and without injecting submitted fields list for memory concern reasons.
+ * Expects that _Mailroommatters_prepareFieldsForSave() first prepared $fieldDefinition
  *
- * @param array $profileFields
+ * @param array $fieldDefinition  An entry in the $profileFields array
  * @param array $fieldList
  * @param array $replacements
  */
@@ -343,34 +392,32 @@ function _Mailroommatters_saveQueryField($fieldDefinition, &$fieldList, &$replac
 		_Mailroommatters_saveQuerySection($fieldDefinition['fields'], $fieldList, $replacements);
 	}
 
-	if (array_key_exists($fieldDefinition['database_field'], $_POST)) {
-		$saveValue = $_POST[$fieldDefinition['database_field']];
+	$saveValue = $fieldDefinition['save_value'];
 
-		switch (strtolower($fieldDefinition['type'])) {
-			case 'yesno':
-			case 'check':
-			case 'number':
-				if ($saveValue === '' || !is_numeric($saveValue)) {
-					$queryType = 'raw';
-					$saveValue = 'NULL';
-				} else {
-					$queryType = 'int';
-				}
-				break;
+	switch (strtolower($fieldDefinition['type'])) {
+		case 'yesno':
+		case 'check':
+		case 'number':
+			if ($saveValue === '' || !is_numeric($saveValue)) {
+				$queryType = 'raw';
+				$saveValue = 'NULL';
+			} else {
+				$queryType = 'int';
+			}
+			break;
 
-			case 'select':
-			case 'text':
-			case 'textarea':
-				$queryType = 'text';
-				break;
+		case 'select':
+		case 'text':
+		case 'textarea':
+			$queryType = 'text';
+			break;
 
-			default:
-				$queryType = $fieldDefinition['type'];
-		}
-
-		$fieldList[] = sprintf('%s = {%s:%s}', $fieldDefinition['database_field'], $queryType, $fieldDefinition['database_field']);
-		$replacements[$fieldDefinition['database_field']] = $saveValue;
+		default:
+			$queryType = $fieldDefinition['type'];
 	}
+
+	$fieldList[] = sprintf('%s = {%s:%s}', $fieldDefinition['database_field'], $queryType, $fieldDefinition['database_field']);
+	$replacements[$fieldDefinition['database_field']] = $saveValue;
 }
 
 /**
@@ -408,73 +455,73 @@ function _Mailroommatters_profileFields() {
 			'label' => 'State',
 			'required' => true,
 			'options' => array(
-				'--' => '- Select Province/State -',
-				'' => '',
-				'AL' => 'Alabama',
-				'AK' => 'Alaska',
-				'AZ' => 'Arizona',
-				'AR' => 'Arkansas',
-				'CA' => 'California',
-				'CO' => 'Colorado',
-				'CT' => 'Connecticut',
-				'DE' => 'Delaware',
-				'DC' => 'District Of Columbia',
-				'FL' => 'Florida',
-				'GA' => 'Georgia',
-				'HI' => 'Hawaii',
-				'ID' => 'Idaho',
-				'IL' => 'Illinois',
-				'IN' => 'Indiana',
-				'IA' => 'Iowa',
-				'KS' => 'Kansas',
-				'KY' => 'Kentucky',
-				'LA' => 'Louisiana',
-				'ME' => 'Maine',
-				'MD' => 'Maryland',
-				'MA' => 'Massachusetts',
-				'MI' => 'Michigan',
-				'MN' => 'Minnesota',
-				'MS' => 'Mississippi',
-				'MO' => 'Missouri',
-				'MT' => 'Montana',
-				'NE' => 'Nebraska',
-				'NV' => 'Nevada',
-				'NH' => 'New Hampshire',
-				'NJ' => 'New Jersey',
-				'NM' => 'New Mexico',
-				'NY' => 'New York',
-				'NC' => 'North Carolina',
-				'ND' => 'North Dakota',
-				'OH' => 'Ohio',
-				'OK' => 'Oklahoma',
-				'OR' => 'Oregon',
-				'PA' => 'Pennsylvania',
-				'RI' => 'Rhode Island',
-				'SC' => 'South Carolina',
-				'SD' => 'South Dakota',
-				'TN' => 'Tennessee',
-				'TX' => 'Texas',
-				'UT' => 'Utah',
-				'VT' => 'Vermont',
-				'VA' => 'Virginia',
-				'WA' => 'Washington',
-				'WV' => 'West Virginia',
-				'WI' => 'Wisconsin',
-				'WY' => 'Wyoming',
+				'' => '- Select Province/State -',
+				'--' => '',
+				'Alabama' => 'Alabama',
+				'Alaska' => 'Alaska',
+				'Arizona' => 'Arizona',
+				'Arkansas' => 'Arkansas',
+				'California' => 'California',
+				'Colorado' => 'Colorado',
+				'Connecticut' => 'Connecticut',
+				'Delaware' => 'Delaware',
+				'District Of Columbia' => 'District Of Columbia',
+				'Florida' => 'Florida',
+				'Georgia' => 'Georgia',
+				'Hawaii' => 'Hawaii',
+				'Idaho' => 'Idaho',
+				'Illinois' => 'Illinois',
+				'Indiana' => 'Indiana',
+				'Iowa' => 'Iowa',
+				'Kansas' => 'Kansas',
+				'Kentucky' => 'Kentucky',
+				'Louisiana' => 'Louisiana',
+				'Maine' => 'Maine',
+				'Maryland' => 'Maryland',
+				'Massachusetts' => 'Massachusetts',
+				'Michigan' => 'Michigan',
+				'Minnesota' => 'Minnesota',
+				'Mississippi' => 'Mississippi',
+				'Missouri' => 'Missouri',
+				'Montana' => 'Montana',
+				'Nebraska' => 'Nebraska',
+				'Nevada' => 'Nevada',
+				'New Hampshire' => 'New Hampshire',
+				'New Jersey' => 'New Jersey',
+				'New Mexico' => 'New Mexico',
+				'New York' => 'New York',
+				'North Carolina' => 'North Carolina',
+				'North Dakota' => 'North Dakota',
+				'Ohio' => 'Ohio',
+				'Oklahoma' => 'Oklahoma',
+				'Oregon' => 'Oregon',
+				'Pennsylvania' => 'Pennsylvania',
+				'Rhode Island' => 'Rhode Island',
+				'South Carolina' => 'South Carolina',
+				'South Dakota' => 'South Dakota',
+				'Tennessee' => 'Tennessee',
+				'Texas' => 'Texas',
+				'Utah' => 'Utah',
+				'Vermont' => 'Vermont',
+				'Virginia' => 'Virginia',
+				'Washington' => 'Washington',
+				'West Virginia' => 'West Virginia',
+				'Wisconsin' => 'Wisconsin',
+				'Wyoming' => 'Wyoming',
 				'=' => '====================',
-				'AB' => 'Alberta',
-				'BC' => 'British Columbia',
-				'MB' => 'Manitoba',
-				'NB' => 'New Brunswick',
-				'NL' => 'Newfoundland and Labrador',
-				'NS' => 'Nova Scotia',
-				'NT' => 'Northwest Territories',
-				'NU' => 'Nunavut',
-				'ON' => 'Ontario',
-				'PE' => 'Prince Edward Island',
-				'QC' => 'Quebec',
-				'SK' => 'Saskatchewan',
-				'YT' => 'Yukon'
+				'Alberta' => 'Alberta',
+				'British Columbia' => 'British Columbia',
+				'Manitoba' => 'Manitoba',
+				'New Brunswick' => 'New Brunswick',
+				'Newfoundland and Labrador' => 'Newfoundland and Labrador',
+				'Nova Scotia' => 'Nova Scotia',
+				'Northwest Territories' => 'Northwest Territories',
+				'Nunavut' => 'Nunavut',
+				'Ontario' => 'Ontario',
+				'Prince Edward Island' => 'Prince Edward Island',
+				'Quebec' => 'Quebec',
+				'Saskatchewan' => 'Saskatchewan',
+				'Yukon' => 'Yukon'
 			)
 		),
 		'country' => array(
