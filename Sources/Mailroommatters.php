@@ -347,6 +347,7 @@ function _Mailroommatters_saveQueryField($fieldDefinition, &$fieldList, &$replac
 		$saveValue = $_POST[$fieldDefinition['database_field']];
 
 		switch (strtolower($fieldDefinition['type'])) {
+			case 'yesno':
 			case 'check':
 			case 'number':
 				if ($saveValue === '' || !is_numeric($saveValue)) {
@@ -531,7 +532,7 @@ function _Mailroommatters_profileFields() {
 		'secondary_name' => array(
 			'database_field' => 'secondary_name',
 			'type' => 'text',
-			'label' => 'Primary Point of Contact'
+			'label' => 'Name'
 		),
 		'secondary_position' => array(
 			'database_field' => 'secondary_position',
@@ -749,5 +750,128 @@ function _Mailroommatters_profileFields() {
 			'type' => 'text',
 			'label' => 'Sunday *'
 		),
+		'pallet_storage_inside_mailroom' => array(
+			'database_field' => 'pallet_storage_inside_mailroom',
+			'type' => 'check',
+			'label' => 'Inside mailroom',
+			'value' => '1'
+		),
+		'pallet_storage_inside_building' => array(
+			'database_field' => 'pallet_storage_inside_building',
+			'type' => 'check',
+			'label' => 'Inside building near mailroom',
+			'value' => '1'
+		),
+		'pallet_storage_inside_dock' => array(
+			'database_field' => 'pallet_storage_inside_dock',
+			'type' => 'check',
+			'label' => 'Inside dock area',
+			'value' => '1'
+		),
+		'pallet_storage_inside_trailer' => array(
+			'database_field' => 'pallet_storage_inside_trailer',
+			'type' => 'check',
+			'label' => 'Inside a storage locker',
+			'value' => '1'
+		),
+		'pallet_storage_inside_cage' => array(
+			'database_field' => 'pallet_storage_inside_cage',
+			'type' => 'check',
+			'label' => 'Inside in a locked cage',
+			'value' => '1'
+		),
+		'pallet_storage_outside_secured' => array(
+			'database_field' => 'pallet_storage_outside_secured',
+			'type' => 'check',
+			'label' => 'Outside in a secured yard',
+			'value' => '1'
+		),
+		'pallet_storage_outside_unsecured' => array(
+			'database_field' => 'pallet_storage_outside_unsecured',
+			'type' => 'check',
+			'label' => 'Outside in a unsecured yard',
+			'value' => '1'
+		),
+		'follow_recommended_stack' => array(
+			'database_field' => 'follow_recommended_stack',
+			'type' => 'yesno',
+			'label' => 'Do you follow the recommended 30 pallets per stack?'
+		),
+		'pickup_notification' => array(
+			'database_field' => 'pickup_notification',
+			'type' => 'yesno',
+			'label' => 'Perfect Pallet Pickup notification required?'
+		),
+		'pickup_notification_email' => array(
+			'database_field' => 'pickup_notification_email',
+			'type' => 'check',
+			'label' => 'Email',
+			'value' => '1'
+		),
+		'pickup_notification_phone' => array(
+			'database_field' => 'pickup_notification_phone',
+			'type' => 'check',
+			'label' => 'Telephone',
+			'value' => '1'
+		),
+		'pickup_notification_fax' => array(
+			'database_field' => 'pickup_notification_fax',
+			'type' => 'check',
+			'label' => 'Fax',
+			'value' => '1'
+		),
+		'recycling_bailers' => array(
+			'database_field' => 'recycling_bailers',
+			'type' => 'check',
+			'label' => 'Paper bailers',
+			'value' => '1'
+		),
+		'recycling_compactors' => array(
+			'database_field' => 'recycling_compactors',
+			'type' => 'check',
+			'label' => 'Compactors',
+			'value' => '1'
+		),
+		'recycling_dumpsters' => array(
+			'database_field' => 'recycling_dumpsters',
+			'type' => 'check',
+			'label' => 'Dumpsters',
+			'value' => '1'
+		),
+		'recycler' => array(
+			'database_field' => 'recycler',
+			'type' => 'yesno',
+			'label' => 'Do you ship out to a local recycler(s)?'
+		),
+		'recycler_name' => array(
+			'database_field' => 'recycler_name',
+			'type' => 'text',
+			'label' => "Recycler's Name",
+		),
+		'recycler_phone' => array(
+			'database_field' => 'recycler_phone',
+			'type' => 'text',
+			'label' => "Recycler's Phone Number"
+		),
+		'inhouse_pallet' => array(
+			'database_field' => 'inhouse_pallet',
+			'type' => 'yesno',
+			'label' => 'Do you own in house plastic pallets?'
+		),
+		'inhouse_pallet_type' => array(
+			'database_field' => 'inhouse_pallet_type',
+			'type' => 'text',
+			'label' => 'What Kind?',
+		),
+		'inhouse_pallet_number' => array(
+			'database_field' => 'inhouse_pallet_number',
+			'type' => 'text',
+			'label' => 'How Many?'
+		),
+		'pallet_return_details' => array(
+			'database_field' => 'pallet_return_details',
+			'type' => 'textarea',
+			'label' => 'Additional comments regarding your purchased plastic pallets? (Please share)'
+		)
 	);
 }

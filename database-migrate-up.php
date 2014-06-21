@@ -329,6 +329,132 @@ $columns = array(
 		'default' => 0
 		),
 	array(
+		'name' => 'pallet_storage_inside_mailroom',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'pallet_storage_inside_building',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'pallet_storage_inside_dock',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'pallet_storage_inside_trailer',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'pallet_storage_inside_cage',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'pallet_storage_outside_secured',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'pallet_storage_outside_unsecured',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'follow_recommended_stack',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'pickup_notification',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'pickup_notification_email',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'pickup_notification_phone',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'pickup_notification_fax',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'recycling_bailers',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'recycling_compactors',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'recycling_dumpsters',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'recycler',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'recycler_name',
+		'type' => 'varchar',
+		'size' => 128,
+		),
+	array(
+		'name' => 'recycler_phone',
+		'type' => 'varchar',
+		'size' => 128,
+		),
+	array(
+		'name' => 'inhouse_pallet',
+		'type' => 'tinyint',
+		'size' => 1,
+		'default' => 0
+		),
+	array(
+		'name' => 'inhouse_pallet_type',
+		'type' => 'varchar',
+		'size' => 128,
+		),
+	array(
+		'name' => 'inhouse_pallet_number',
+		'type' => 'varchar',
+		'size' => 128,
+		),
+	array(
+		'name' => 'pallet_return_details',
+		'type' => 'text',
+		),
+	array(
 		'name' => 'last_modified',
 		'type' => 'int',
 		'size' => 10,

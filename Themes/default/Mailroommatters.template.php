@@ -306,7 +306,7 @@ function template_mailroommatters_edit() {
 				echo _mailroommatters_editField($context['mailroommatters']['fields']['receiving_challenges_unpaved']);
 				?>
 				<br />
-				<?php echo _mailroommatters_editField($context['mailroommatters']['fields']['receiving_challenges_comments'], $wrap = false, $bold = false); ?>
+				<?php echo _mailroommatters_editField($context['mailroommatters']['fields']['receiving_challenges_comments'], $wrap = false, $strong = false); ?>
 			</dd>
 
 			<dt><strong>Driver Privileges and Access</strong></dt>
@@ -317,7 +317,7 @@ function template_mailroommatters_edit() {
 				echo _mailroommatters_editField($context['mailroommatters']['fields']['driver_privileges_unloading_participation']);
 				?>
 				<br />
-				<?php echo _mailroommatters_editField($context['mailroommatters']['fields']['driver_privileges_comments'], $wrap = false, $bold = false); ?>
+				<?php echo _mailroommatters_editField($context['mailroommatters']['fields']['driver_privileges_comments'], $wrap = false, $strong = false); ?>
 			</dd>
 
 			<?php echo _mailroommatters_editField($context['mailroommatters']['fields']['digital_pictures']); ?>
@@ -327,57 +327,69 @@ function template_mailroommatters_edit() {
 			<h4 class="titlebg"><span class="ie6_header floatleft">Returnable Printer Pallets/Recycling (Confidential)</span></h4>
 		</div>
 		<dl>
-			<dt><strong>Perfect Pallet storage area:</strong></dt>
+			<dt><strong>Perfect Pallet storage area</strong></dt>
 			<dd>
-				<input type="checkbox" name="pallet_storage_inside_mailroom" /> Inside mailroom
-				<br /><input type="checkbox" name="pallet_storage_inside_building" /> Inside building near mailroom
-				<br /><input type="checkbox" name="pallet_storage_inside_dock" /> Inside Dock Area
-				<br /><input type="checkbox" name="pallet_storage_inside_trailer" /> Inside a storage trailer
-				<br /><input type="checkbox" name="pallet_storage_inside_cage" /> Inside in a locked cage
-				<br /><input type="checkbox" name="pallet_storage_outside_secured" /> Outside in a secured yard
-				<br /><input type="checkbox" name="pallet_storage_outside_unsecured" /> Outside in a unsecured yard
+				<?php
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['pallet_storage_inside_mailroom']);
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['pallet_storage_inside_building']);
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['pallet_storage_inside_dock']);
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['pallet_storage_inside_trailer']);
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['pallet_storage_inside_cage']);
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['pallet_storage_outside_secured']);
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['pallet_storage_outside_unsecured']);
+				?>
 			</dd>
 
-			<dt><strong>Do you follow the recommended 30 pallets per stack?:</strong></dt>
-			<dd><input type="checkbox" name="recommended_stack" value="" /></dd>
-
-			<dt><strong>Perfect Pallet Pickup notification required?</strong></dt>
-			<dd><input type="checkbox" name="pickup_notification" value="" /></dd>
+			<?php
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['follow_recommended_stack']);
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['pickup_notification']);
+			?>
 
 			<dt><strong>If yes, what type of notification do you require?</strong></dt>
 			<dd>
-				<input type="checkbox" name="notification_email" value="" /> Email
-				<br /><input type="checkbox" name="notification_phone" value="" /> Telephone
-				<br /><input type="checkbox" name="notification_fax" value="" /> Fax
+				<?php
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['pickup_notification_email']);
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['pickup_notification_phone']);
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['pickup_notification_fax']);
+				?>
 			</dd>
 
 			<dt><strong>Recycling Equipment</strong></dt>
 			<dd>
-				<input type="checkbox" name="recycling_bailers" value="" /> Paper Bailers 
-				<br /><input type="checkbox" name="recycling_compactors" value="" /> Compactors
-				<br /><input type="checkbox" name="recycling_dumpsters" value="" /> Dumpsters
+				<?php
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['recycling_bailers']);
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['recycling_compactors']);
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['recycling_dumpsters']);
+				?>
 			</dd>
 
-			<dt><strong>Do you ship out to a local recycler(s)?</strong></dt>
-			<dd><input type="checkbox" name="pickup_notification" value="" /></dd>
+			<?php
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['recycler']);
+			?>
 
 			<dt><strong>If yes:</strong></dt>
 			<dd>
-				Recycler's Name: <input size="50" type="text" name="recycler_name" value="" />
-				<br />Recycler's Phone Number: <input size="50" type="text" name="recycler_phone" value="" />
+				<?php
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['recycler_name'], $wrap = false, $strong = false, $inline = true);
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['recycler_phone'], $wrap = false, $strong = false, $inline = true);
+				?>
 			</dd>
 
-			<dt><strong>Do you own in house plastic pallets?: </strong></dt>
-			<dd><input type="checkbox" name="inhouse_pallet" value="" /></dd>
+			<?php
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['inhouse_pallet']);
+			?>
 
 			<dt><strong>If yes:</strong></dt>
 			<dd>
-				What kind? <input size="50" type="text" name="inhouse_pallet_type" value="" />
-				<br />How many? <input size="50" type="text" name="inhouse_pallet_number" value="" />
+				<?php
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['inhouse_pallet_type'], $wrap = false, $strong = false, $inline = true);
+				echo _mailroommatters_editField($context['mailroommatters']['fields']['inhouse_pallet_number'], $wrap = false, $strong = false, $inline = true);
+				?>
 			</dd>
 
-			<dt><strong>Additional comments regarding your purchased plastic pallets? (Please share):</strong></dt>
-			<dd><textarea class="editor" cols="50" rows="5" name="pallet_return_details"></textarea></dd>
+			<?php
+			echo _mailroommatters_editField($context['mailroommatters']['fields']['pallet_return_details']);
+			?>
 
 			<hr class="hrcolor clear" width="100%" size="1" />
 			<div class="righttext"><input class="button_submit" type="submit" value="Save Profile" /></div>
@@ -497,7 +509,7 @@ function _mailroommatters_renderSection($section, $fieldRenderCallback = '_mailr
  * @param array $field
  * @return string
  */
-function _mailroommatters_editField($field, $wrap = true, $strongTitle = true) {
+function _mailroommatters_editField($field, $wrap = true, $strongTitle = true, $inline = false) {
 	global $context;
 
 	$fieldInput = '';
@@ -555,7 +567,7 @@ function _mailroommatters_editField($field, $wrap = true, $strongTitle = true) {
 	}
 
 	$content = sprintf(
-		($wrap ? '<dt>%s%s</dt><dd>%s%s</dd>' : '%s%s<br />%s%s'),
+		($wrap ? '<dt>%s%s</dt><dd>%s%s</dd>' : ($inline ? '%s%s: %s%s<br />' : '%s%s<br />%s%s')),
 		($strongTitle ? '<strong>'. $field['label'] .'</strong>' : $field['label']),
 		(empty($field['subtext']) ? '' : '<br /><span class="smalltext">'. $field['subtext'] .'</span>'),
 		$fieldInput,
