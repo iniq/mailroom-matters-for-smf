@@ -440,8 +440,7 @@ function _Mailroommatters_profileFields() {
 		'address2' => array(
 			'database_field' => 'address2',
 			'type' => 'text',
-			'label' => 'Address Line 2',
-			'required' => true
+			'label' => 'Address Line 2'
 		),
 		'city' => array(
 			'database_field' => 'city',
@@ -699,7 +698,8 @@ function _Mailroommatters_profileFields() {
 		'inserting_equipment' => array(
 			'database_field' => 'inserting_equipment',
 			'type' => 'textarea',
-			'label' => 'Inserting equipment, stackers, etc. (please provide as much detail as possible)'
+			'edit_label' => 'Inserting equipment, stackers, etc. (please provide as much detail as possible)',
+			'label' => 'Inserting equipment, stackers, etc.'
 		),
 		'unloading_equipment' => array(
 			'database_field' => 'unloading_equipment',
@@ -755,37 +755,37 @@ function _Mailroommatters_profileFields() {
 		'hours_monday' => array(
 			'database_field' => 'hours_monday',
 			'type' => 'text',
-			'label' => 'Monday *'
+			'label' => 'Monday'
 		),
 		'hours_tuesday' => array(
 			'database_field' => 'hours_tuesday',
 			'type' => 'text',
-			'label' => 'Tuesday *'
+			'label' => 'Tuesday'
 		),
 		'hours_wednesday' => array(
 			'database_field' => 'hours_wednesday',
 			'type' => 'text',
-			'label' => 'Wednesday *'
+			'label' => 'Wednesday'
 		),
 		'hours_thursday' => array(
 			'database_field' => 'hours_thursday',
 			'type' => 'text',
-			'label' => 'Thursday *'
+			'label' => 'Thursday'
 		),
 		'hours_friday' => array(
 			'database_field' => 'hours_friday',
 			'type' => 'text',
-			'label' => 'Friday *'
+			'label' => 'Friday'
 		),
 		'hours_saturday' => array(
 			'database_field' => 'hours_saturday',
 			'type' => 'text',
-			'label' => 'Saturday *'
+			'label' => 'Saturday'
 		),
 		'hours_sunday' => array(
 			'database_field' => 'hours_sunday',
 			'type' => 'text',
-			'label' => 'Sunday *'
+			'label' => 'Sunday'
 		),
 		'pallet_storage_inside_mailroom' => array(
 			'database_field' => 'pallet_storage_inside_mailroom',

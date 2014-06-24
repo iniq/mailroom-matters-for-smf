@@ -413,10 +413,159 @@ function template_mailroommatters_view() {
 	$content = '';
 	$pageDescription = '';
 
-	foreach ($context['mailroommatters']['fields'] as $fieldKey => $currentField) {
-		$content .= _mailroommatters_renderField($currentField);
-	}
+	// Build the main page content
+	ob_start();
+	?>
 
+	<small><strong>Quick Links</strong></small>
+	<ul id="mmQuickLinks" style="margin: 0px; padding: 0px; height: 40px; list-style: none; font-size: 11px; font-weight: bold;">
+		<li style="float: left; margin: 5px 5px 0px 0px; border-right: 1px solid #cccccc; padding: 0px 5px 0px 0px;"><a href="#newspaperCompanyContactInformation">Newspaper/Company Contact Information</a></li>
+		<li style="float: left; margin: 5px 5px 0px 0px; border-right: 1px solid #cccccc; padding: 0px 5px 0px 0px;"><a href="#primaryContact">Primary Contact</a></li>
+		<li style="float: left; margin: 5px 5px 0px 0px; border-right: 1px solid #cccccc; padding: 0px 5px 0px 0px;"><a href="#secondaryContact">Secondary Contact</a></li>
+		<li style="float: left; margin: 5px 5px 0px 0px; border-right: 1px solid #cccccc; padding: 0px 5px 0px 0px;"><a href="#otherContent">Other Contact</a></li>
+		<li style="float: left; margin: 5px 5px 0px 0px; border-right: 1px solid #cccccc; padding: 0px 5px 0px 0px;"><a href="#companyDetailsandEquipment">Company Details and Equipment</a></li>
+		<li style="float: left; margin: 5px 5px 0px 0px; border-right: 1px solid #cccccc; padding: 0px 5px 0px 0px;"><a href="#extensionRequestsContact">Extension Requests Contact</a></li>
+		<li style="float: left; margin: 5px 5px 0px 0px; border-right: 1px solid #cccccc; padding: 0px 5px 0px 0px;"><a href="#receivingDays">Receiving Days</a></li>
+		<li style="float: left; margin: 5px 5px 0px 0px; padding: 0px 5px 0px 0px;"><a href="#receivingDetails">Receiving Details</a></li>
+	</ul>
+
+	<hr style="background: #cccccc; margin: 10px 0px; border: 0px; height: 1px; clear: both;" />
+
+	<div class="title_barIC">
+		<a name="newspaperCompanyContactInformation"></a>
+		<h4 class="titlebg"><span class="ie6_header floatleft">Newspaper/Company Contact Information</span></h4>
+	</div>
+	<dl>
+		<?php
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['newspaper_name']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['address']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['address2']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['city']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['state']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['country']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['zip']);
+		?>
+	</dl>
+
+	<div class="title_barIC">
+		<a name="primaryContact"></a>
+		<h4 class="titlebg"><span class="ie6_header floatleft">Primary Contact</span></h4>
+	</div>
+	<dl>
+		<?php
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['primary_name']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['primary_position']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['primary_phone']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['primary_fax']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['primary_email']);
+		?>
+	</dl>
+
+	<div class="title_barIC">
+		<a name="secondaryContact"></a>
+		<h4 class="titlebg"><span class="ie6_header floatleft">Secondary Contact</span></h4>
+	</div>
+	<dl>
+		<?php
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['secondary_name']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['secondary_position']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['secondary_phone']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['secondary_fax']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['secondary_email']);
+		?>
+	</dl>
+
+	<div class="title_barIC">
+		<a name="otherContact"></a>
+		<h4 class="titlebg"><span class="ie6_header floatleft">Other Contact Information</span></h4>
+	</div>
+	<dl>
+		<?php
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['phone_emergency']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['phone_security']);
+		?>
+	</dl>
+
+	<div class="title_barIC">
+		<a name="companyDetailsandEquipment"></a>
+		<h4 class="titlebg"><span class="ie6_header floatleft">Company Details and Equipment</span></h4>
+	</div>
+	<dl>
+		<?php
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['circulation_volume']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['inserting_equipment']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['forklifts']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['pallet_jacks']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['staff_receiving']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['staff_inserting']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['commercial_printing']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['load_packaging']);
+		?>
+	</dl>
+
+	<div class="title_barIC">
+		<a name="extensionRequestsContact"></a>
+		<h4 class="titlebg"><span class="ie6_header floatleft">Extension Requests Contact</span></h4>
+	</div>
+	<dl>
+		<?php
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['extension_requests_name']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['extension_requests_position']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['extension_requests_phone']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['extension_requests_fax']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['extension_requests_email']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['extension_requests_comments']);
+		?>
+	</dl>
+
+	<div class="title_barIC">
+		<a name="receivingDays"></a>
+		<h4 class="titlebg"><span class="ie6_header floatleft">Receiving Days and Hours for Insert Delivery</span></h4>
+	</div>
+	<dl>
+		<?php
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['hours_monday'], $emptyValue = 'Closed');
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['hours_tuesday'], $emptyValue = 'Closed');
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['hours_wednesday'], $emptyValue = 'Closed');
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['hours_thursday'], $emptyValue = 'Closed');
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['hours_friday'], $emptyValue = 'Closed');
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['hours_saturday'], $emptyValue = 'Closed');
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['hours_sunday'], $emptyValue = 'Closed');
+		?>
+	</dl>
+
+	<div class="title_barIC">
+		<a name="receivingDetails"></a>
+		<h4 class="titlebg"><span class="ie6_header floatleft">Receiving Details</span></h4>
+	</div>
+	<dl>
+		<dt><strong>Advanced insert receiving times: </strong></dt>
+		<dd></dd>
+		<?php
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['advanced_receiving_sundays']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['advanced_receiving_daily']);
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['unloading_equipment']);
+		echo _mailroommatters_renderGroupWithOptions('Receiving Challenges or Comments', array(
+			$context['mailroommatters']['fields']['receiving_challenges_difficult_access'],
+			$context['mailroommatters']['fields']['receiving_challenges_no_turnaround'],
+			$context['mailroommatters']['fields']['receiving_challenges_unpaved'],
+			$context['mailroommatters']['fields']['receiving_challenges_comments']
+			));
+		echo _mailroommatters_renderGroupWithOptions('Driver Privileges and Access', array(
+			$context['mailroommatters']['fields']['driver_privileges_office_only'],
+			$context['mailroommatters']['fields']['driver_privileges_truck_only'],
+			$context['mailroommatters']['fields']['driver_privileges_unloading_participation'],
+			$context['mailroommatters']['fields']['driver_privileges_comments']
+			));
+		echo _mailroommatters_renderField($context['mailroommatters']['fields']['digital_pictures']);
+		?>
+	</dl>
+
+	<?php
+	$content = ob_get_contents();
+	ob_end_clean();
+
+	// Build the header / wrap for the main content described above
 	_mailroommatters_header();
 
 	$actionButtons = array();
@@ -516,6 +665,14 @@ function _mailroommatters_editField($field, $wrap = true, $strongTitle = true, $
 	$properties = array();
 	$currentValue = (array_key_exists('save_value', $field) ? $field['save_value'] : $context['mailroommatters']['profile'][$field['database_field']]);
 
+	if (!empty($field['edit_label'])) {
+		$field['label'] = $field['edit_label'];
+	}
+
+	if ($field['required']) {
+		$field['label'] .= ' *';
+	}
+
 	switch ($field['type']) {
 		case 'section':
 			return _mailroommatters_renderSection($field, '_mailroommatters_editField');
@@ -530,15 +687,14 @@ function _mailroommatters_editField($field, $wrap = true, $strongTitle = true, $
 			}
 
 			$fieldInput = sprintf(
-				'<input type="hidden" name="%s" value="0" /><input type="checkbox" id="%s", name="%s", value="%s" %s/> <label for="%s">%s%s</label><br />',
+				'<input type="hidden" name="%s" value="0" /><input type="checkbox" id="%s", name="%s", value="%s" %s/> <label for="%s">%s</label><br />',
 				$field['database_field'],
 				$field['database_field'],
 				$field['database_field'],
 				$field['value'],
 				($currentValue == $field['value'] ? 'checked ' : ''),
 				$field['database_field'],
-				$field['label'],
-				($field['required'] ? '*' : '')
+				$field['label']
 				);
 
 			// Do not wrap
@@ -570,10 +726,6 @@ function _mailroommatters_editField($field, $wrap = true, $strongTitle = true, $
 				$fieldInput .= $key .'="'. htmlspecialchars($value, ENT_QUOTES) .'" ';
 			}
 			$fieldInput = '<input '. $fieldInput .'/>';
-	}
-
-	if ($field['required']) {
-		$field['label'] .= ' *';
 	}
 
 	if ($wrap) {
@@ -610,11 +762,51 @@ function _mailroommatters_editField($field, $wrap = true, $strongTitle = true, $
 }
 
 /**
+ * Show a built answer for a single question comprised of many different option fields, plus potentially a
+ * field for 'other/comments' at the end.
+ * @param string $label
+ * @param array $fieldList  Array of $field arrays
+ * @return string
+ */
+function _mailroommatters_renderGroupWithOptions($label, $fieldList) {
+	global $context;
+	$contentStatements = array();
+
+	foreach ($fieldList as $field) {
+		$currentValue = $context['mailroommatters']['profile'][$field['database_field']];
+		switch ($field['type']) {
+			case 'check':
+				if ($currentValue) {
+					$currentValue = $field['label'];
+				}
+				break;
+
+			case 'textarea':
+				$currentValue = nl2br(htmlspecialchars($currentValue));
+				break;
+
+			default:
+				$currentValue = htmlspecialchars($fieldValue);
+		}
+		if (!empty($currentValue)) {
+			$contentStatements[] = $currentValue;
+		}
+	}
+
+	$content = '
+		<dt>'. $label .'</dt>
+		<dd>'. implode('<br />', $contentStatements) .'</dd>
+		';
+
+	return $content;
+}
+
+/**
  * Call to show a value for a profile field, if it isn't empty
  * @param array $field
  * @return string
  */
-function _mailroommatters_renderField($field) {
+function _mailroommatters_renderField($field, $emptyValue = '') {
 	global $context;
 
 	if ($field['type'] == 'section') {
@@ -623,15 +815,20 @@ function _mailroommatters_renderField($field) {
 
 	$currentValue = $context['mailroommatters']['profile'][$field['database_field']];
 
-	if ($currentValue === '' || is_null($currentValue)) {
-		return '';
-	}
-
 	switch ($field['type']) {
 		case 'number':
 			$currentValue = floatval($currentValue);
 			break;
 
+		case 'select':
+			if (array_key_exists($currentValue, $field['options'])) {
+				$currentValue = $field['options'][$currentValue];
+			} else {
+				$currentValue = $emptyValue;
+			}
+			break;
+
+		case 'yesno':
 		case 'check':
 			$currentValue = ($currentValue ? 'Yes' : 'No');
 			break;
@@ -642,14 +839,18 @@ function _mailroommatters_renderField($field) {
 
 		default:
 			$currentValue = htmlspecialchars($currentValue);
-			if (strpos($field['database_field'], '_email') !== false) {
+			if (strpos($field['database_field'], '_email') !== false && !empty($currentValue)) {
 				$currentValue = '<a href="mailto:'. $currentValue .'">'. $currentValue .'</a>';
 			}
 	}
 
+	if (empty($currentValue)) {
+		$currentValue = $emptyValue;
+	}
+
 	$content = '
 		<dt>'. $field['label'] .'</dt>
-		<dd>'. $currentValue .'</dd>
+		<dd>'. $currentValue . (!empty($field['after_input']) ? ' '. $field['after_input'] : '') .'</dd>
 		';
 	return $content;
 }
