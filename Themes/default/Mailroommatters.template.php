@@ -422,7 +422,7 @@ function template_mailroommatters_view() {
 		<li style="float: left; margin: 5px 5px 0px 0px; border-right: 1px solid #cccccc; padding: 0px 5px 0px 0px;"><a href="#newspaperCompanyContactInformation">Newspaper/Company Contact Information</a></li>
 		<li style="float: left; margin: 5px 5px 0px 0px; border-right: 1px solid #cccccc; padding: 0px 5px 0px 0px;"><a href="#primaryContact">Primary Contact</a></li>
 		<li style="float: left; margin: 5px 5px 0px 0px; border-right: 1px solid #cccccc; padding: 0px 5px 0px 0px;"><a href="#secondaryContact">Secondary Contact</a></li>
-		<li style="float: left; margin: 5px 5px 0px 0px; border-right: 1px solid #cccccc; padding: 0px 5px 0px 0px;"><a href="#otherContent">Other Contact</a></li>
+		<li style="float: left; margin: 5px 5px 0px 0px; border-right: 1px solid #cccccc; padding: 0px 5px 0px 0px;"><a href="#otherContact">Other Contact</a></li>
 		<li style="float: left; margin: 5px 5px 0px 0px; border-right: 1px solid #cccccc; padding: 0px 5px 0px 0px;"><a href="#companyDetailsandEquipment">Company Details and Equipment</a></li>
 		<li style="float: left; margin: 5px 5px 0px 0px; border-right: 1px solid #cccccc; padding: 0px 5px 0px 0px;"><a href="#extensionRequestsContact">Extension Requests Contact</a></li>
 		<li style="float: left; margin: 5px 5px 0px 0px; border-right: 1px solid #cccccc; padding: 0px 5px 0px 0px;"><a href="#receivingDays">Receiving Days</a></li>
